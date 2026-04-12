@@ -1,0 +1,5 @@
+const FONT_SIZE = 14;
+const SELECT_HEIGHT = 32;
+const SELECT_WIDTH = 200;
+
+export { FONT_SIZE, SELECT_HEIGHT, SELECT_WIDTH };

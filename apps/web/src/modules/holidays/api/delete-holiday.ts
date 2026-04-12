@@ -1,0 +1,20 @@
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { axios } from 'lib/axios';
+import { queryClient } from 'lib/react-query';
+
+const deleteHoliday = (holidayId: string) => {
+  return axios.delete(`/holidays/${holidayId}`);
+};
+
+export const useDeleteHoliday = () => {
+  return useMutation({
+    mutationFn: deleteHoliday,
+    onSuccess: () => {
+      toast.success('Holiday deleted successful');
+      queryClient.invalidateQueries({ queryKey: ['holidays'] });
+    },
+    onError: (error) =>
+      toast.error('Failed to remove a Holiday: ' + error?.message),
+  });
+};

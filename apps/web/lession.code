@@ -1,0 +1,37 @@
+
+//toast
+export const useDeleteHoliday = () => {
+  return useMutation({
+    mutationFn: deleteHoliday,
+    onSuccess: () => {
+      toast.success('Holiday deleted successful');
+      queryClient.invalidateQueries({ queryKey: ['holidays'] });
+    },
+    onError: (error) =>
+      toast.error('Failed to remove a Holiday: ' + error?.message),
+  });
+};
+
+// resolverXác thực thông tin theo schema, dùng các thư viện Yup, Zod, hoặc Joi.
+<ValidationForm<TMastersDataDetail>
+    defaultValues={masterData}
+    onSubmit={handleSubmit}
+    resolver={yupResolver(masterDataSchema)}
+    mode="onChange"
+  >
+
+  const masterDataSchema = Yup.object().shape({
+  name: Yup.string().required('Tên là bắt buộc'),
+  age: Yup.number().min(18, 'Tuổi phải ít nhất là 18'),
+});
+
+//</InfiniteLoader> là một component của thư viện react-virtualized được sử dụng để tải dữ liệu theo từng phần (lazily load) khi người dùng cuộn trang hoặc bảng. Mục đích chính của InfiniteLoader là cải thiện hiệu suất ứng dụng bằng cách chỉ tải và hiển thị các dữ liệu cần thiết, thay vì tải toàn bộ dữ liệu một lần.
+//SortDirectionObj - sort
+
+//sidebar - edit sidebar constant & sidebar
+//paging hasNextPage
+  // onLoadMore={() => {
+  //           if (!isFetchingNextPage && hasNextPage) {
+  //             fetchNextPage();
+  //           }
+  //         }}

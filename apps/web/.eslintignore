@@ -1,0 +1,5 @@
+node_modules/
+build/
+env.d.ts
+.eslintrc.cjs
+commitlint.config.cjs

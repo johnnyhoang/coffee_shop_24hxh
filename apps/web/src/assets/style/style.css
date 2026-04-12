@@ -1,0 +1,196 @@
+.custom-popup .swal2-warning {
+    border-color: #EE4823;
+    color: #EE4823;
+    width: 2em;
+    height: 2em;
+}
+
+.custom-popup {
+    background-color: #fcfaf3;
+    padding-bottom: 0;
+    width: 400px;
+    /* Adjust width as needed */
+    height: auto !important;
+    /* max-height: 20vh; */
+    /* height: 200px; */
+    /* Adjust height as needed */
+}
+
+.custom-title {
+    color: #1c1c1c;
+    padding: 15px 0;
+    font-size: 22px;
+}
+
+.custom-title span {
+    color: #fff;
+}
+
+.swal2-actions {
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.custom-button .swal2-confirm {
+    background-color: #3DA2D6;
+    min-width: 100px;
+    padding: 8px 15px;
+}
+
+.custom-button .swal2-cancel {
+    background-color: #1C1C1C;
+    min-width: 100px;
+    padding: 8px 15px;
+}
+
+.swal2-icon {
+    border: none !important;
+}
+
+.swal2-title {
+    font-size: 14px;
+}
+
+/* Customize the height of the SweetAlert2 popup */
+.swal2-popup {
+    height: auto !important;
+    /* Set to 'auto' or a specific height value */
+    /* max-height: 40vh; */
+    /* Set a maximum height if needed */
+}
+
+.custom-swal {
+    width: 300px;
+    /* Adjust the width of the popup */
+    height: 150px;
+    /* Adjust the height of the popup */
+}
+
+.swal2-container .swal2-html-container {
+    margin: unset;
+}
+
+.contextMenu {
+    position: fixed;
+    background-color: black;
+    margin: 0;
+    padding: 0;
+    min-width: 150px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 6px rgb(209, 209, 209);
+    color: #fff;
+    z-index: 999;
+    display: block;
+}
+
+.contextMenu>li {
+    list-style-type: none;
+    padding: 10px;
+    font-size: 12pt;
+    text-align: left;
+}
+
+.contextMenu>li:hover {
+    background-color: gray;
+}
+
+.ReactVirtualized__Table__headerTruncatedText {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.ReactVirtualized__Table__rowColumn {
+    border-right: 1px solid #dedede;
+    padding: 0.5rem;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+}
+
+.ReactVirtualized__Table__row {
+    position: relative;
+}
+.ReactVirtualized__Table__row:hover::before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    content: "";
+    background-color: #c7c7c7;
+    opacity: 0.1;
+}
+
+.staffing-management .ReactVirtualized__Grid,
+.staffing-management .ReactVirtualized__Grid__innerScrollContainer,
+.staffing-management .ReactVirtualized__Table__row {
+    overflow: visible !important;
+}
+
+.staffing-management .ReactVirtualized__Table__rowColumn {
+    position: relative;
+}
+
+.btn-style {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+    text-wrap: nowrap;
+}
+
+.css-1ktriz-container {
+    width: auto !important;
+}
+
+.popover-style {
+    background-color: #fff !important;
+
+}
+
+input:placeholder-shown {
+    text-overflow: ellipsis;
+}
+
+.scroll-style {
+    overflow: hidden;
+}
+
+.history-table .truncate {
+    white-space: break-spaces;
+}
+
+.table-inlab .ReactVirtualized__Table__rowColumn:nth-child(n + 3):not(:nth-child(n + 12)) {
+    text-overflow: unset;
+}
+.inlab-history-table .ReactVirtualized__Grid, .history-table .ReactVirtualized__Grid {
+    height: 300px !important;
+    overflow: auto !important;
+    scrollbar-width: none;
+}
+.inlab-history-table .ReactVirtualized__Grid:hover, .history-table .ReactVirtualized__Grid:hover {
+    scrollbar-width: auto;
+}
+.inlab-history-table .ReactVirtualized__Table__row, .history-table .ReactVirtualized__Table__row {
+    height: auto !important;
+    position: relative !important;
+    top: auto !important;
+    min-height: 36px  !important;
+}
+.inlab-history-table .ReactVirtualized__Table__rowColumn, .inlab-history-table .ReactVirtualized__Table__rowColumn span {
+    text-overflow: clip;
+    text-wrap: wrap;
+}
+
+input.text-clip {
+    text-overflow: clip !important;
+}
+

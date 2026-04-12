@@ -1,0 +1,305 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: black;
+  background-color: white;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .form-label {
+    @apply block text-xs whitespace-nowrap dark:text-black;
+  }
+
+  .form-control {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d9d9d9;
+    border-radius: 0.375rem;
+    outline: none;
+    transition: border-color 0.15s ease-in-out;
+  }
+
+  .form-control:hover {
+    border-color: #4096ff;
+  }
+
+  .form-control:focus {
+    border-color: #1677ff;
+    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  }
+
+  .cell-filled {
+    @apply after:inset-0 after:w-full after:h-full after:absolute after:-z-20;
+  }
+
+  /* Status */
+  .failed {
+    @apply cell-filled after:bg-[#FCD5B4];
+  }
+
+  .light-failed {
+    @apply cell-filled after:bg-[#FFEADA];
+  }
+  /* app Color */
+  .color-app-blue {
+    @apply cell-filled after:bg-[#3DA2D6];
+  }
+  .color-app-light-blue {
+    @apply cell-filled after:bg-[#A8D9EA];
+  }
+
+  .color-app-very-light-blue {
+    @apply cell-filled after:bg-[#A8D9EA];
+  }
+
+  .color-app-main-grey {
+    @apply cell-filled after:bg-[#1C1C1C];
+  }
+
+  .color-app-anthrazit-grey {
+    @apply cell-filled after:bg-[#515151];
+  }
+
+  .color-app-elephant-grey {
+    @apply cell-filled after:bg-[#8D8D8D];
+  }
+
+  .color-app-light-grey {
+    @apply cell-filled after:bg-[#D6D6D6];
+  }
+
+  .color-app-very-light-grey {
+    @apply cell-filled after:bg-[#EBEBEB];
+  }
+
+  .color-app-main-yellow {
+    @apply cell-filled after:bg-[#F5ED63];
+  }
+
+  .color-app-light-yellow {
+    @apply cell-filled after:bg-[#FFFF95];
+  }
+
+  .color-app-orange {
+    @apply cell-filled after:bg-[#FCB912];
+  }
+
+  .color-app-light-orange {
+    @apply cell-filled after:bg-[#FCE7A2];
+  }
+
+  .color-app-red {
+    @apply cell-filled after:bg-[#EE4823];
+  }
+
+  .color-app-light-red {
+    @apply cell-filled after:bg-[#F1714F];
+  }
+  /* Date time display  */
+  .color-very-far-future {
+    @apply cell-filled after:bg-[#DDE2E0] text-right;
+  }
+
+  .color-near-future {
+    @apply cell-filled after:bg-[#D0E5D0] text-right;
+  }
+
+  .color-very-old-past {
+    @apply cell-filled after:bg-[#F7F7FA] text-right;
+  }
+
+  .color-near-past {
+    @apply cell-filled after:bg-[#F5F5DC] text-right;
+  }
+
+  /* Resource Type */
+  .contractor-resource {
+    @apply text-[#3DA2D6];
+  }
+
+  .fresher-resource {
+    @apply text-[#FF8C00];
+  }
+
+  .operation-resource {
+    @apply text-[#800080];
+  }
+
+  .lead-resource {
+    @apply font-bold;
+  }
+
+  .beryl-green {
+    @apply cell-filled after:bg-[#D8E4BC];
+  }
+
+  .alto {
+    @apply cell-filled after:bg-[#D9D9D9];
+  }
+
+  .silver {
+    @apply cell-filled after:bg-[#BFBFBF];
+  }
+
+  .light-apricot {
+    @apply cell-filled after:bg-[#FCD5B4];
+  }
+
+  .cinderella {
+    @apply cell-filled after:bg-[#FDE9D9];
+  }
+
+  .rose-fog {
+    @apply cell-filled after:bg-[#E6B8B7];
+  }
+
+  .powder-blue {
+    @apply cell-filled after:bg-[#B7DEE8];
+  }
+
+  /* In-progress statuses */
+  .full-inprogress {
+    @apply cell-filled after:bg-[#66ffd9];
+  }
+
+  .three-quarter-inprogress {
+    @apply cell-filled after:bg-[#99ffe6];
+  }
+
+  .half-inprogress {
+    @apply cell-filled after:bg-[#e6fff9];
+  }
+
+  /* Success statuses */
+  .full-success {
+    @apply cell-filled after:bg-[#66e0ff];
+  }
+
+  .three-quarter-success {
+    @apply cell-filled after:bg-[#b3f0ff];
+  }
+
+  .half-success {
+    @apply cell-filled after:bg-[#e6faff];
+  }
+
+  /* Failed statuses */
+  .full-failed {
+    @apply cell-filled after:bg-[#ff6699];
+  }
+
+  .three-quarter-failed {
+    @apply cell-filled after:bg-[#ffb3cc];
+  }
+
+  .half-failed {
+    @apply cell-filled after:bg-[#ffe6ee];
+  }
+
+  .text-transparent {
+    color: transparent;
+  }
+
+  /* InLab color set */
+  .inlab-over {
+    @apply cell-filled after:bg-[#ffabab];
+  }
+
+  .inlab-100 {
+    @apply cell-filled after:bg-[#bd8c1e];
+  }
+
+  .inlab-80 {
+    @apply cell-filled after:bg-[#cea854];
+  }
+
+  .inlab-60 {
+    @apply cell-filled after:bg-[#dbbe80];
+  }
+
+  .inlab-40 {
+    @apply cell-filled after:bg-[#ecdab7];
+  }
+
+  .inlab-20 {
+    @apply cell-filled after:bg-[#fbf4e9];
+  }
+
+  .inlab-00 {
+    @apply cell-filled after:bg-[#cef5f9] opacity-100;
+  }
+
+  .inlab-negative {
+    @apply cell-filled after:bg-[#cef5f9] opacity-100;
+  }
+}
+.reqfield-label {
+  color: #8b0000; /* Example color, choose your preferred shade */
+}
+.cell-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.react-aria-Menu {
+  max-height: inherit;
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 2px;
+  min-width: 150px;
+  box-sizing: border-box;
+  outline: none;
+  background-color: white;
+}
+
+.react-aria-MenuItem {
+  margin: 2px;
+  padding: 0.286rem 0.571rem;
+  border-radius: 6px;
+  outline: none;
+  cursor: default;
+  color: var(--text-color);
+  font-size: 1.072rem;
+  position: relative;
+  display: grid;
+  grid-template-areas:
+    'label kbd'
+    'desc  kbd';
+  align-items: center;
+  column-gap: 20px;
+  forced-color-adjust: none;
+
+}
