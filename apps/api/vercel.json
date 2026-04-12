@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nestjs",
+  "installCommand": "cd ../.. && NPM_CONFIG_PRODUCTION=false npm ci",
+  "regions": ["sin1"]
+}
