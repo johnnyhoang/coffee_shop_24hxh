@@ -27,23 +27,31 @@ async function bootstrap() {
     }),
   );
 
+  // CORS: thêm domain production qua biến CORS_ORIGINS (cách nhau dấu phẩy). Preview Vercel *.vercel.app được phép HTTPS.
+  const extraOrigins = (process.env.CORS_ORIGINS ?? '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const allowedOrigins = [
+    'http://localhost:5001',
+    'http://localhost:5000',
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://minkoi.io.vn',
+    'http://123.30.136.246',
+    ...extraOrigins,
+  ];
   // Cấu hình CORS (Cross-Origin Resource Sharing)
   const corsOptions: CorsOptions = {
     origin: (origin, callback) => {
-      // Danh sách các origin được phép gửi yêu cầu
-      const allowedOrigins = [
-        'http://localhost:5001',
-        'http://localhost:5000',
-        'http://localhost:3000',
-        'http://localhost:5173',
-        'http://minkoi.io.vn',
-        'http://123.30.136.246',
-      ];
-      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-        callback(null, true); // Nếu origin hợp lệ hoặc không có origin, cho phép yêu cầu
-      } else {
-        callback(new Error('Not allowed by CORS')); // Nếu origin không hợp lệ, từ chối yêu cầu
+      const vercelPreview =
+        !!origin &&
+        /^https:\/\/[^/]+\.vercel\.app$/i.test(origin);
+      if (!origin || allowedOrigins.indexOf(origin) !== -1 || vercelPreview) {
+        callback(null, true);
+        return;
       }
+      callback(new Error('Not allowed by CORS'));
     },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Các phương thức HTTP được phép
     credentials: true, // Cho phép gửi cookie và thông tin xác thực

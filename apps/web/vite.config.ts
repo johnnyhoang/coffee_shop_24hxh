@@ -4,33 +4,33 @@ import svgr from 'vite-plugin-svgr';
 import { fileURLToPath } from 'url';
 import type { PluginOption } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import { readFile, writeFile } from 'fs/promises';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
-function reactVirtualized(): PluginOption {
-  const WRONG_CODE = `import { bpfrpt_proptype_WindowScroller } from "../WindowScroller.js";`;
+/**
+ * react-virtualized (ES/CJS) có dòng chuỗi Flow cũ ở đầu file — Rollup/Vite cảnh báo "Module level directives".
+ * Xóa trong transform, không sửa file trong node_modules.
+ */
+function reactVirtualizedStripFlowDirective(): PluginOption {
+  const pattern = /^\s*['"]no babel-plugin-flow-react-proptypes['"];\s*\r?\n?/;
 
   return {
-    name: 'my:react-virtualized',
-    async configResolved() {
-      const reactVirtualizedPath = path.dirname(
-        fileURLToPath(import.meta.resolve('react-virtualized')),
-      );
-
-      const brokenFilePath = path.join(
-        reactVirtualizedPath,
-        '..',
-        'es',
-        'WindowScroller',
-        'utils',
-        'onScroll.js',
-      );
-      const brokenCode = await readFile(brokenFilePath, 'utf-8');
-
-      const fixedCode = brokenCode.replace(WRONG_CODE, '');
-      await writeFile(brokenFilePath, fixedCode);
+    name: 'vite:react-virtualized-strip-flow-directive',
+    enforce: 'pre',
+    transform(code, id) {
+      const normalized = id.replace(/\\/g, '/');
+      if (!normalized.includes('/react-virtualized/') || !id.endsWith('.js')) {
+        return null;
+      }
+      if (!code.includes('babel-plugin-flow-react-proptypes')) {
+        return null;
+      }
+      const next = code.replace(pattern, '');
+      if (next === code) {
+        return null;
+      }
+      return { code: next, map: null };
     },
   };
 }
@@ -47,7 +47,12 @@ export default defineConfig(({ mode }) => {
   return {
     base: '/',
     envDir: rootDir,
-    plugins: [react(), viteTsconfigPaths(), svgr(), reactVirtualized()],
+    plugins: [
+      react(),
+      viteTsconfigPaths(),
+      svgr(),
+      reactVirtualizedStripFlowDirective(),
+    ],
     server: {
       host,
       port,
@@ -55,6 +60,31 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: 'build',
+      chunkSizeWarningLimit: 900,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (!id.includes('node_modules')) {
+              return;
+            }
+            if (/[/\\]react-virtualized[/\\]/.test(id)) {
+              return 'react-virtualized';
+            }
+            if (/[/\\]@mui[/\\]/.test(id)) {
+              return 'mui';
+            }
+            if (/[/\\]@tanstack[/\\]/.test(id)) {
+              return 'tanstack';
+            }
+            if (/[/\\]react-dom[/\\]/.test(id) || /[/\\]react[/\\]/.test(id)) {
+              return 'react-vendor';
+            }
+            if (id.includes('react-router')) {
+              return 'react-router';
+            }
+          },
+        },
+      },
     },
   };
 });

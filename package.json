@@ -1,6 +1,9 @@
 {
   "name": "coffee-shop-monorepo",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "workspaces": [
     "apps/*"
   ],
@@ -8,6 +11,8 @@
     "dev": "node scripts/dev.mjs",
     "build": "npm run build -w @coffee-shop/api && npm run build -w @coffee-shop/web",
     "dev:api": "npm run dev -w @coffee-shop/api",
-    "dev:web": "npm run dev -w @coffee-shop/web"
+    "dev:web": "npm run dev -w @coffee-shop/web",
+    "migration:run": "npm run migration:run -w @coffee-shop/api",
+    "migration:show": "npm run migration:show -w @coffee-shop/api"
   }
 }

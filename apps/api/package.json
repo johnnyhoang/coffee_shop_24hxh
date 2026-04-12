@@ -11,8 +11,9 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "test": "jest",
-    "typeorm:cli": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js",
-    "migration:run": "npm run typeorm:cli -- migration:run -d ./ormconfig.js"
+    "typeorm:cli": "node ../../node_modules/typeorm/cli.js",
+    "migration:run": "npm run typeorm:cli -- migration:run -d ./ormconfig.js",
+    "migration:show": "npm run typeorm:cli -- migration:show -d ./ormconfig.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.4.1",
