@@ -1,15 +1,28 @@
-import 'module-alias/register';
 import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { configSwagger } from '@configs/api-docs.config';
 import { join } from 'path';
-import { AppModule } from './app.module';
-import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 async function bootstrap() {
+  const moduleAlias = require('module-alias');
+  moduleAlias.addAliases({
+    '@configs': join(__dirname, 'configs'),
+    '@modules': join(__dirname, 'modules'),
+  });
+
+  console.log('[bootstrap] starting', {
+    cwd: process.cwd(),
+    dirname: __dirname,
+    vercel: process.env.VERCEL,
+    nodeEnv: process.env.NODE_ENV,
+  });
+
+  const { AppModule } = require('./app.module');
+  const { configSwagger } = require('@configs/api-docs.config');
+  const { AllExceptionsFilter } = require('./common/filters/all-exceptions.filter');
+
   // Tạo một instance của ứng dụng NestJS
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -67,4 +80,7 @@ async function bootstrap() {
   await app.listen(port); // Lắng nghe các yêu cầu đến cổng đã chỉ định
 }
 
-bootstrap();
+bootstrap().catch((error) => {
+  console.error('[bootstrap] failed', error);
+  process.exit(1);
+});
