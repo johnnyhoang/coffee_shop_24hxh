@@ -66,14 +66,14 @@ const Locations = () => {
             <Select
               isMulti
               name="region"
-              placeholder="Region"
+              placeholder="Vùng / khu vực"
               options={regions}
               value={dropdownSelectedRegions}
               onChange={handleDropdownChange}
             />
 
             <SearchField
-              placeholder="Search by various info..."
+              placeholder="Tìm theo tên, mã, quốc gia..."
               onChange={handleSearch}
               value={q}
             />
@@ -91,7 +91,7 @@ const Locations = () => {
             onPress={toggle}
           >
             <AiOutlinePlus />
-            Add Location
+            Thêm chi nhánh
           </Button>
         </div>
       </div>
@@ -106,7 +106,7 @@ const Locations = () => {
       )}
       <LocationModal
         isOpen={isModalOpen}
-        title="Add Location"
+        title="Thêm chi nhánh"
         onOpenChange={toggle}
         location={DEFAULT_LOCATION}
         actionType={ActionType.Add}

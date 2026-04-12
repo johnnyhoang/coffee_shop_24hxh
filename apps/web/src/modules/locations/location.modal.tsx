@@ -71,26 +71,26 @@ export const LocationModal = ({
                   <div className="grid gap-4 grid-cols-2 justify-between">
                     <Field
                       name="location"
-                      label={<span className="reqfield-label">*Location</span>}
-                      placeholder="Luxembourg City"
+                      label={<span className="reqfield-label">*Tên chi nhánh</span>}
+                      placeholder="Ví dụ: Quận 1 — Lê Lợi"
                     />
                     <Field
                       name="locationCode"
                       label={
-                        <span className="reqfield-label">*Location Code</span>
+                        <span className="reqfield-label">*Mã chi nhánh</span>
                       }
-                      placeholder="LUXC"
+                      placeholder="VD: HCM-Q1"
                     />
                     <Field
                       name="country"
-                      label={<span className="reqfield-label">*Location Code</span>}
-                      placeholder="Luxembourg"
+                      label={<span className="reqfield-label">*Quốc gia</span>}
+                      placeholder="Việt Nam"
                     />
                     <Field
                       as="select"
                       name="region"
-                      label={<span className="reqfield-label">*Region</span>}
-                      placeholder="Europe"
+                      label={<span className="reqfield-label">*Vùng</span>}
+                      placeholder="Chọn vùng"
                       items={regions}
                     >
                       {regions?.map(({ key, value, label: label }) => (
@@ -107,7 +107,7 @@ export const LocationModal = ({
                         isPendingMutate || !isFormValid || !formChanged
                       }
                     >
-                      {isPendingMutate ? 'Saving...' : 'Save'}
+                      {isPendingMutate ? 'Đang lưu...' : 'Lưu'}
                     </Button>
                     <ConfirmationModal handler={handleDelete}>
                       <Button
@@ -117,7 +117,7 @@ export const LocationModal = ({
                           isPendingMutate || !isFormValid || formChanged
                         }
                       >
-                        {isPendingMutate ? 'Deleting...' : 'Delete'}
+                        {isPendingMutate ? 'Đang xóa...' : 'Xóa'}
                       </Button>
                     </ConfirmationModal>
                   </div>

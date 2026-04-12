@@ -41,22 +41,22 @@ export const transformLocations = (locations: TLocationDTO[]): TLocation[] => {
 
 export const LOCATION_COLUMNS = [
   {
-    label: 'Location',
+    label: 'Tên chi nhánh',
     key: 'location',
     width: 150,
   },
   {
-    label: 'Location Code',
+    label: 'Mã',
     key: 'locationCode',
     width: 100,
   },
   {
-    label: 'Country',
+    label: 'Quốc gia',
     key: 'country',
     width: 150,
   },
   {
-    label: 'Region',
+    label: 'Vùng',
     key: 'region',
     width: 150,
   },
@@ -76,8 +76,8 @@ export const DEFAULT_LOCATION: TLocation = {
 };
 
 export const locationSchema = object({
-  location: string().required('This field is required!'),
-  locationCode: string().required('This field is required!'),
-  country: string().required('This field is required!'),
-  region: string().required('This field is required!'),
+  location: string().required('Nhập tên chi nhánh'),
+  locationCode: string().required('Nhập mã chi nhánh'),
+  country: string().required('Nhập quốc gia'),
+  region: string().required('Chọn vùng'),
 });

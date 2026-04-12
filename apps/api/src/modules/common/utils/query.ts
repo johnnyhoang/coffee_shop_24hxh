@@ -114,10 +114,15 @@ export const validateClass = async (
   try {
     await validateOrReject(entity);
     return [];
-  } catch (errs: any) {
+  } catch (errs: unknown) {
     const list = Array.isArray(errs) ? errs : [errs];
-    return list.map((err) =>
-      err.constraints ? Object.values(err.constraints)[0] : String(err),
-    );
+    return list.map((err): string => {
+      const e = err as { constraints?: Record<string, string> };
+      if (e.constraints) {
+        const first = Object.values(e.constraints)[0];
+        return typeof first === 'string' ? first : String(first);
+      }
+      return String(err);
+    });
   }
 };

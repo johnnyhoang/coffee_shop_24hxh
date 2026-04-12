@@ -14,9 +14,11 @@ import { DataSource } from 'typeorm';
 import { PeopleModule } from '@modules/people/people.module';
 
 import { CoffeeTableModule } from '@modules/coffeetable/coffeetable.module';
+import { StaffBranchRoleModule } from '@modules/staff-branch-role/staff-branch-role.module';
 
 import { DrinksModule } from '@modules/drinks/drinks.module';
 
+import { typeOrmOptionsFromDatabaseUrl } from './configs/postgres-from-url';
 
 @Module({
   imports: [
@@ -28,15 +30,41 @@ import { DrinksModule } from '@modules/drinks/drinks.module';
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid('development', 'production')
-          .default('development'), // Xác định môi trường (development hoặc production)
-        PORT: Joi.number().required(), // Cổng mà ứng dụng sẽ chạy
-        DATABASE_TYPE: Joi.string().valid('postgres').required(),
-        DATABASE_HOST: Joi.string().required(), // Địa chỉ máy chủ cơ sở dữ liệu
-        DATABASE_PORT: Joi.number().required(), // Cổng của cơ sở dữ liệu
-        DATABASE_USERNAME: Joi.string().required(), // Tên người dùng của cơ sở dữ liệu
-        DATABASE_PASSWORD: Joi.string().required(), // Mật khẩu của cơ sở dữ liệu
-        DATABASE_NAME: Joi.string().required(),
+          .default('development'),
+        PORT: Joi.number().default(3000),
+        // Hoặc DATABASE_URL (Supabase pooler / PgBouncer), hoặc tách HOST/PORT/...
+        DATABASE_URL: Joi.string().allow('').optional(),
+        DIRECT_URL: Joi.string().allow('').optional(),
+        DATABASE_HOST: Joi.string().when('DATABASE_URL', {
+          is: Joi.string().min(1),
+          then: Joi.optional(),
+          otherwise: Joi.required(),
+        }),
+        DATABASE_PORT: Joi.when('DATABASE_URL', {
+          is: Joi.string().min(1),
+          then: Joi.optional(),
+          otherwise: Joi.required(),
+        }),
+        DATABASE_USERNAME: Joi.when('DATABASE_URL', {
+          is: Joi.string().min(1),
+          then: Joi.optional(),
+          otherwise: Joi.required(),
+        }),
+        DATABASE_PASSWORD: Joi.when('DATABASE_URL', {
+          is: Joi.string().min(1),
+          then: Joi.optional(),
+          otherwise: Joi.required(),
+        }),
+        DATABASE_NAME: Joi.when('DATABASE_URL', {
+          is: Joi.string().min(1),
+          then: Joi.optional(),
+          otherwise: Joi.required(),
+        }),
+        DB_SYNCHRONIZE: Joi.string().valid('true', 'false').optional(),
         DATABASE_SYNCHRONIZE: Joi.string().valid('true', 'false').default('false'),
+        DB_SSL: Joi.string().valid('true', 'false').optional(),
+        DATABASE_SSL: Joi.string().valid('true', 'false').optional(),
+        DATABASE_LOGGING: Joi.string().optional(),
       }),
       isGlobal: true, // Đặt module cấu hình này là toàn cục
       cache: true, // Bật tính năng cache để tăng hiệu suất
@@ -48,17 +76,42 @@ import { DrinksModule } from '@modules/drinks/drinks.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule], // Import ConfigModule để sử dụng ConfigService
       useFactory: (configService: ConfigService) => {
+        const databaseUrl = configService.get<string>('DATABASE_URL')?.trim();
+        const synchronize =
+          configService.get<string>('DB_SYNCHRONIZE') === 'true' ||
+          configService.get<string>('DATABASE_SYNCHRONIZE') === 'true';
+        const logging =
+          configService.get<string>('DATABASE_LOGGING') === 'true';
+        const sslEnabled =
+          configService.get<string>('DB_SSL') === 'true' ||
+          configService.get<string>('DATABASE_SSL') === 'true';
+        const ssl = sslEnabled ? { rejectUnauthorized: false } : false;
+
+        const base = {
+          type: 'postgres' as const,
+          synchronize,
+          logging,
+          ssl,
+          entities: [`${__dirname}/modules/**/*.entity{.ts,.js}`],
+          migrations: [`${__dirname}/db/migrations/*{.ts,.js}`],
+        };
+
+        if (databaseUrl) {
+          return {
+            ...base,
+            ...typeOrmOptionsFromDatabaseUrl(databaseUrl, ssl),
+          };
+        }
+
         return {
-          type: 'postgres',
+          ...base,
           host: configService.get<string>('DATABASE_HOST'),
           port: configService.get<number>('DATABASE_PORT'),
           username: configService.get<string>('DATABASE_USERNAME'),
-          password: configService.get<string>('DATABASE_PASSWORD'),
+          password: String(
+            configService.get<string>('DATABASE_PASSWORD') ?? '',
+          ),
           database: configService.get<string>('DATABASE_NAME'),
-          synchronize: configService.get<string>('DATABASE_SYNCHRONIZE') === 'true',
-          logging: Boolean(configService.get<string>('DATABASE_LOGGING')),
-          entities: [`${__dirname}/modules/**/*.entity{.ts,.js}`],
-          migrations: [`${__dirname}/db/migrations/*{.ts,.js}`],
         };
       },
       inject: [ConfigService], // Sử dụng ConfigService để lấy giá trị cấu hình
@@ -71,6 +124,7 @@ import { DrinksModule } from '@modules/drinks/drinks.module';
     MasterDataModule,
     PeopleModule,
     CoffeeTableModule,
+    StaffBranchRoleModule,
   ],
   controllers: [AppController], // Các bộ điều khiển của ứng dụng
   providers: [AppService], // Các dịch vụ cung cấp trong phạm vi toàn ứng dụng

@@ -48,8 +48,8 @@ export class CoffeeTableController {
                 value: {
                     tableNumber: 1,
                     tableStatus: true,
-                    tableSize: 4,
-                } as CreateCoffeeTableDto,
+                    tableSize: '4',
+                } satisfies CreateCoffeeTableDto,
             },
         },
     })

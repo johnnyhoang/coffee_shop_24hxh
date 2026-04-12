@@ -1,23 +1,33 @@
 import React from 'react';
-import './welcome.css'; // Styles for the Welcome Page
 
 const WelcomePage = () => {
   return (
-    <div className="welcome-container">
-      <h1 className="welcome-title">Welcome to the RMO App!</h1>
-      <p className="welcome-intro">
-        Here, you have all the tools and resources you need to efficiently
-        manage your capacity, projects and teams. From project capacity planning
-        to resource allocation, we&apos;ve got you covered.
-      </p>
-      <p className="welcome-info">
-        Get started by navigating through the menu options on the left. If you
-        have any questions or need assistance, don&apos;t hesitate to reach out
-        to our support team.
-      </p>
-      <p className="welcome-ending">
-        Let&apos;s make our projects a success together!
-      </p>
+    <div className="relative overflow-hidden rounded-2xl border border-cream-200 bg-gradient-to-br from-paper via-cream-50 to-cream-100 p-6 shadow-card sm:p-10">
+      <div
+        className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-caramel/15 blur-3xl"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -bottom-20 left-0 h-40 w-40 rounded-full bg-sage/20 blur-3xl"
+        aria-hidden
+      />
+
+      <div className="relative">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-espresso-500">
+          Coffee Shop 24HXH
+        </p>
+        <h1 className="font-display text-3xl font-semibold leading-tight text-espresso-800 sm:text-4xl">
+          Chào mừng
+        </h1>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-espresso-600 sm:text-lg">
+          Hệ thống quản lý đồ uống, bàn, khách hàng, chi nhánh và danh mục dùng
+          chung — chọn mục trong menu để bắt đầu.
+        </p>
+
+        <p className="mt-10 text-sm text-espresso-500">
+          Chúc một ca phục vụ suôn sẻ.
+        </p>
+      </div>
     </div>
   );
 };

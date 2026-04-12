@@ -9,9 +9,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 export function configSwagger(app: INestApplication) {
   // Tạo cấu hình Swagger cho tài liệu API
   const config = new DocumentBuilder()
-    .setTitle('Coffee App Project') // Tiêu đề của tài liệu API
-    .setDescription('## Coffee App API description') // Mô tả API
-    .setVersion('1.0.0') // Phiên bản API
+    .setTitle('Coffee Shop 24HXH API')
+    .setDescription('## API quản lý Coffee Shop 24HXH')
+    .setVersion('1.0.0')
     .build();
 
   // Tạo tài liệu Swagger từ cấu hình
@@ -21,7 +21,7 @@ export function configSwagger(app: INestApplication) {
   SwaggerModule.setup('api/v1/api-docs', app, document, {
     swaggerOptions: {}, // Các tùy chọn Swagger bổ sung
     customJs: '/swagger-custom.js', // Tập tin JavaScript tùy chỉnh cho Swagger UI
-    customSiteTitle: 'Coffee App Documentation', // Tiêu đề của trang Swagger UI
+    customSiteTitle: 'Coffee Shop 24HXH — API',
     customfavIcon: '/swagger.ico', // Biểu tượng yêu thích tùy chỉnh cho trang Swagger UI
   });
 }

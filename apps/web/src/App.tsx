@@ -17,8 +17,8 @@ import PageNotFound from 'modules/welcome/page-not-found';
 import { Peoples } from 'modules/peoples/components/people';
 import MasterData from 'modules/masters/master-data.page';
 import Locations from 'modules/locations/locations.page';
+import StaffAssignmentsPage from 'modules/staff-branch-roles/staff-assignments.page';
 import { Drinks } from 'modules/drinks/drinks.page';
-import ExamplePage from 'modules/example/example';
 
 
 
@@ -31,46 +31,29 @@ const App = () => {
           <Route
             path="locations"
             element={<Locations />}
-            handle={{
-              title: 'Location',
-            }}
+            handle={{ title: 'Chi nhánh' }}
           />
           <Route
             path="people"
             element={<Peoples />}
-            handle={{
-              title: 'People',
-            }}
+            handle={{ title: 'Khách / People' }}
           />
           <Route
-            path="example"
-            element={<ExamplePage />}
-            handle={{
-              title: 'Example Page',
-            }}
+            path="staff-assignments"
+            element={<StaffAssignmentsPage />}
+            handle={{ title: 'Nhân viên & chi nhánh' }}
           />
-          {/* <Route
-            path="holidays"
-            element={<Holidays />}
-            handle={{
-              title: 'Holiday',
-            }}
-          /> */}
           <Route
             path="drinks"
             element={<Drinks />}
-            handle={{
-              title: 'Drink',
-            }}
+            handle={{ title: 'Đồ uống' }}
           />
-          <Route path="*" element={<PageNotFound />} />
           <Route
             path="masters"
             element={<MasterData />}
-            handle={{
-              title: 'Master Data',
-            }}
+            handle={{ title: 'Danh mục dùng chung' }}
           />
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </>,
     ),
@@ -81,7 +64,17 @@ const App = () => {
         <RouterProvider router={router} />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-      <Toaster />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#3d2d24',
+            color: '#faf6f0',
+            borderRadius: '12px',
+          },
+        }}
+      />
     </Suspense>
   );
 };

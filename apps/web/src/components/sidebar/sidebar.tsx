@@ -1,68 +1,57 @@
 import clsx from 'clsx';
-import { NavLink } from 'react-router-dom';
-import { menus } from './sidebar.constants';
-import { SideBarProps } from './sidebar.type';
-import logo from 'assets/logo.png';
 import ChevronDoubleRightIcon from '@heroicons/react/24/outline/ChevronDoubleRightIcon';
+
+import logo from 'assets/logo.png';
+import { SidebarNav } from './sidebar-nav';
+import { SideBarProps } from './sidebar.type';
 
 export const SideBar = ({ isOpen, setIsOpen }: SideBarProps) => {
   return (
     <div
       id="sidebar"
       className={clsx(
-        'fixed left-0 top-0 bottom-0',
-        'flex flex-col p-2.5 h-screen bg-[#f4f5f7]',
+        'hidden h-full min-h-0 flex-col border-r border-cream-200 bg-gradient-to-b from-paper to-cream-50 lg:flex',
         {
           'w-72': isOpen,
-          'w-14': !isOpen,
+          'w-[4.5rem]': !isOpen,
         },
       )}
     >
-      <div className="flex gap-2 items-center justify-center p-4">
-        <img src={logo} alt="logo" className="w-[100px]" />
+      <div
+        className={clsx(
+          'flex shrink-0 items-center gap-3 border-b border-cream-200/80 px-4 py-5',
+          !isOpen && 'justify-center px-2',
+        )}
+      >
+        <img
+          src={logo}
+          alt="Coffee Shop 24HXH"
+          className={clsx('h-10 w-auto object-contain', !isOpen && 'h-9')}
+        />
         {isOpen && (
-          <h1 className="text-xl font-semibold">Coffee App</h1>
+          <div className="min-w-0">
+            <p className="font-display text-lg font-semibold leading-tight text-espresso-800">
+              24HXH
+            </p>
+            <p className="truncate text-xs text-espresso-500">Coffee Shop</p>
+          </div>
         )}
       </div>
-      <nav className="mt-4 flex flex-col h-full overflow-auto">
-        {menus.map((group) => (
-          <div key={group.id}>
-            <span className="text-sm font-bold">
-              {isOpen ? group.label : ''}
-            </span>
-            {isOpen &&
-              group.items.map(({ id, path, label, Icon }) => (
-                <NavLink
-                  key={id}
-                  to={path}
-                  className={({ isActive }) =>
-                    clsx(
-                      'font-medium flex gap-2 items-center pl-6 p-2 rounded-md',
-                      {
-                        'bg-[#d1d4dc]': isActive,
-                        'hover:bg-[#091e4214]': !isActive,
-                      },
-                    )
-                  }
-                >
-                  <Icon className="w-5 h-5" />
-                  {isOpen && <span className="text-sm">{label}</span>}
-                </NavLink>
-              ))}
-          </div>
-        ))}
-      </nav>
-      {/* Toggle Button at the Bottom */}
+
+      <div className="min-h-0 flex-1 overflow-y-auto px-3 pt-4">
+        <SidebarNav showLabels={isOpen} />
+      </div>
+
       <button
-        onClick={() => setIsOpen((isOpen) => !isOpen)}
-        className="mt-auto inline-flex items-center justify-end w-full p-2"
+        type="button"
+        onClick={() => setIsOpen((v) => !v)}
+        className="mt-auto flex min-h-[48px] items-center justify-center border-t border-cream-200 text-espresso-500 hover:bg-cream-200/80"
+        aria-label={isOpen ? 'Thu gọn menu' : 'Mở rộng menu'}
       >
         <ChevronDoubleRightIcon
-          className={clsx('w-5 h-5 transition-transform', {
+          className={clsx('h-5 w-5 transition-transform', {
             'rotate-180': isOpen,
           })}
-          // Modify the d attribute to swap the direction of the arrow
-          d="M15 19l-7-7 7-7"
         />
       </button>
     </div>

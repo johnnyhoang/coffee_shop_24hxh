@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite --host 0.0.0.0 --port 5000",
-    "dev": "vite --host 0.0.0.0 --port 5000",
+    "start": "vite",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 3000",
     "eslint": "eslint \"src/**/*.{ts,tsx}\"",

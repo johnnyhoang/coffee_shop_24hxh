@@ -14,11 +14,11 @@ export const useAddLocation = () => {
   return useMutation({
     mutationFn: addLocation,
     onSuccess: () => {
-      toast.success('Location added successfully');
+      toast.success('Đã thêm chi nhánh');
       queryClient.invalidateQueries({ queryKey: ['locations'] });
     },
     onError: (error) =>
-      toast.error('Failed to add a Location: ' + error?.message),
+      toast.error('Không thêm được chi nhánh: ' + error?.message),
   });
 };
 
@@ -30,13 +30,13 @@ export const useDeleteLocation = () => {
   return useMutation({
     mutationFn: deleteLocation,
     onSuccess: () => {
-      toast.success('Location deleted successfully');
+      toast.success('Đã xóa chi nhánh');
       queryClient.invalidateQueries({
         queryKey: ['locations'],
       });
     },
     onError: (error) =>
-      toast.error('Failed to remove a Location: ' + error?.message),
+      toast.error('Không xóa được chi nhánh: ' + error?.message),
   });
 };
 
@@ -49,11 +49,11 @@ export const useEditLocation = () => {
   return useMutation({
     mutationFn: editLocation,
     onSuccess: () => {
-      toast.success('Location updated successfully');
+      toast.success('Đã cập nhật chi nhánh');
       queryClient.invalidateQueries({ queryKey: ['locations'] });
     },
     onError: (error) => {
-      toast.error('Failed to edit a Location: ' + error?.message);
+      toast.error('Không cập nhật được chi nhánh: ' + error?.message);
     },
   });
 };

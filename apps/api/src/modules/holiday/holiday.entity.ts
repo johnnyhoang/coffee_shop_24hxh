@@ -16,8 +16,8 @@ export class Holiday extends CustomBaseEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' }) // Đổi tên cột thành 'id'
   holidayId: number;
 
-  // Cột lưu trữ ngày lễ, kiểu dữ liệu datetime, có thể là null
-  @Column({ type: 'datetime', nullable: true, name: 'holiday' }) // Đổi tên cột thành 'holiday'
+  // PostgreSQL: dùng timestamp (không dùng datetime như MySQL)
+  @Column({ type: 'timestamp', nullable: true, name: 'holiday' })
   holiday: Date | null;
 
   // Cột lưu trữ quốc gia, kiểu dữ liệu varchar với độ dài 50 ký tự

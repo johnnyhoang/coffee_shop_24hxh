@@ -66,7 +66,7 @@ export const LocationList = ({ locations }: { locations: TLocation[] }) => {
         isOpen={isModalOpen}
         actionType={ActionType.Edit}
         onOpenChange={toggle}
-        title="Update Location Data"
+        title="Sửa chi nhánh"
         location={selectedLocation}
       />
     </div>
