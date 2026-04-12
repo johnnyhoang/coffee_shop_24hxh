@@ -38,23 +38,23 @@ export const transformDrinks = (peoples: TDrinkDTO[]): TDrink[] =>
   }));
 
 export const drinksDataSchema = object({
-  drinkName: string().trim().required('This field is required!'),
-  price: number().required('This field is required!'),
+  drinkName: string().trim().required('Nhập tên đồ uống'),
+  price: number().required('Nhập giá'),
 });
 
 export const DRINK_COLUMNS = [
   {
-    label: 'Drink Name',
+    label: 'Tên đồ uống',
     key: 'drinkName',
     width: 150,
   },
   {
-    label: 'Price',
+    label: 'Giá',
     key: 'price',
     width: 80,
   },
   {
-    label: 'Description',
+    label: 'Mô tả',
     key: 'description',
     width: 400,
   },

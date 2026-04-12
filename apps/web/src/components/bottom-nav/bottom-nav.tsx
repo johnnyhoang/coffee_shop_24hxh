@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import {
   BuildingOffice2Icon,
   HomeIcon,
+  Squares2X2Icon,
   UserGroupIcon,
-  WrenchScrewdriverIcon,
 } from '@heroicons/react/24/outline';
 import { NavLink } from 'react-router-dom';
 import { RiDrinks2Fill } from 'react-icons/ri';
@@ -14,14 +14,14 @@ const iconForPath = (path: string) => {
   switch (path) {
     case '/':
       return HomeIcon;
+    case '/trading-today':
+      return Squares2X2Icon;
     case '/drinks':
       return RiDrinks2Fill;
     case '/people':
       return UserGroupIcon;
     case '/locations':
       return BuildingOffice2Icon;
-    case '/masters':
-      return WrenchScrewdriverIcon;
     default:
       return HomeIcon;
   }

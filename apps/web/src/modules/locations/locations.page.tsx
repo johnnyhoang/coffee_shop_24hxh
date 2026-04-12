@@ -14,8 +14,7 @@ import { DropdownItem } from 'common/types';
 import { MultiValue } from 'react-select';
 import { regionsList as regions } from './location.type';
 import { LocationList } from './location.list';
-
-
+import { PageListCard } from 'components/page-list';
 
 const Locations = () => {
 
@@ -60,50 +59,47 @@ const Locations = () => {
 
   return (
     <>
-      <div className="p-2 border-[#dedede] border-t border-l border-r rounded-t-md">
-        <div className="flex items-end justify-between">
-          <div className="flex items-end gap-2 w-full flex-1 mr-2">
-            <Select
-              isMulti
-              name="region"
-              placeholder="Vùng / khu vực"
-              options={regions}
-              value={dropdownSelectedRegions}
-              onChange={handleDropdownChange}
-            />
-
-            <SearchField
-              placeholder="Tìm theo tên, mã, quốc gia..."
-              onChange={handleSearch}
-              value={q}
-            />
-
+      <PageListCard
+        toolbar={
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex w-full flex-1 flex-col gap-2 sm:flex-row sm:items-end">
+              <Select
+                isMulti
+                name="region"
+                placeholder="Vùng / khu vực"
+                options={regions}
+                value={dropdownSelectedRegions}
+                onChange={handleDropdownChange}
+              />
+              <SearchField
+                placeholder="Tìm theo tên, mã, quốc gia..."
+                onChange={handleSearch}
+                value={q}
+              />
+              <Button
+                className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-espresso-800 hover:bg-espresso-700"
+                onPress={handleClearSearch}
+              >
+                <AiOutlineClose />
+                Xóa lọc
+              </Button>
+            </div>
             <Button
-              className="btn-style bg-[#1c1c1c] hover:bg-[#3DA2D6] pressed:bg-[#3DA2D6]"
-              onPress={handleClearSearch}
+              className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-rust hover:bg-[#5c3b2e]"
+              onPress={toggle}
             >
-              <AiOutlineClose />{/* Clear search */}
+              <AiOutlinePlus />
+              Thêm chi nhánh
             </Button>
           </div>
-
-          <Button
-            className="btn-style bg-[#3DA2D6] hover:bg-[#FCB912] pressed:bg-[#3DA2D6]"
-            onPress={toggle}
-          >
-            <AiOutlinePlus />
-            Thêm chi nhánh
-          </Button>
-        </div>
-      </div>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <LocationList
-            locations={locationList}
-          />
-        </>
-      )}
+        }
+      >
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <LocationList locations={locationList ?? []} />
+        )}
+      </PageListCard>
       <LocationModal
         isOpen={isModalOpen}
         title="Thêm chi nhánh"

@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
 
 // DTO để tạo mới đối tượng CoffeeTable
 export class CreateCoffeeTableDto {
@@ -15,4 +15,9 @@ export class CreateCoffeeTableDto {
     @IsOptional()
     @IsString()
     tableSize?: string | null;
+
+    @IsOptional()
+    @IsInt()
+    @Min(1)
+    locationId?: number | null;
 }

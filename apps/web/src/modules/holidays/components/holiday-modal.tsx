@@ -93,14 +93,14 @@ export const HolidayModal = ({
                   <div className="grid gap-4 grid-cols-2 justify-between">
                     <Field
                       name="holiday"
-                      label={<span className="reqfield-label">*Holiday</span>}
-                      placeholder="Select a holiday date"
+                      label={<span className="reqfield-label">*Ngày lễ</span>}
+                      placeholder="Chọn ngày"
                       as="datepicker"
                     ></Field>
                     <Field
                       name="holidayName"
-                      label={<span className="reqfield-label">*Name</span>}
-                      placeholder="What's holiday name?"
+                      label={<span className="reqfield-label">*Tên ngày lễ</span>}
+                      placeholder="Ví dụ: Tết Dương lịch"
                     />
                     {/* <Field
                       as="select-input"
@@ -119,7 +119,7 @@ export const HolidayModal = ({
                         isPendingMutate || !isFormValid || !formChanged
                       }
                     >
-                      {isPendingMutate ? 'Saving...' : 'Save'}
+                      {isPendingMutate ? 'Đang lưu...' : 'Lưu'}
                     </Button>
                     <ConfirmationModal handler={handleDelete}>
                       <Button
@@ -129,7 +129,7 @@ export const HolidayModal = ({
                           isPendingMutate || !isFormValid || formChanged
                         }
                       >
-                        {isPendingMutate ? 'Deleting...' : 'Delete'}
+                        {isPendingMutate ? 'Đang xóa...' : 'Xóa'}
                       </Button>
                     </ConfirmationModal>
                   </div>

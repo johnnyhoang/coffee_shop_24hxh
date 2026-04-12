@@ -4,18 +4,18 @@ import { useMutation } from '@tanstack/react-query';
 import { queryClient } from 'lib/react-query';
 import { TPeople } from '../types/type';
 
-const addPeople = (data: TPeople): Promise<TPeople> => {
-  return axios.post('/peoples', data);
+const addPeople = (data: TPeople) => {
+  return axios.post('peoples', data);
 };
 
 export const useAddPeople = () => {
-  return useMutation<TPeople, Error, TPeople>({
+  return useMutation({
     mutationFn: addPeople,
     onSuccess: () => {
-      toast.success('User added successfully');
+      toast.success('Đã thêm khách');
       queryClient.invalidateQueries({ queryKey: ['peoples'] });
     },
     onError: (error: Error) =>
-      toast.error('Failed to add user: ' + error.message),
+      toast.error('Không thêm được: ' + error.message),
   });
 };

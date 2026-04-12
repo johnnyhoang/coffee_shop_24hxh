@@ -7,10 +7,11 @@ import { DEFAULT_DRINK, TDrink, TDrinkDTO, transformDrinks } from './drinks.type
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { SearchField } from 'components/search-field';
 import { useSessionQuery } from 'hooks/use-session-query';
-import axios from 'axios';
+import { axios } from 'lib/axios';
 import { useQuery } from '@tanstack/react-query';
 import { DrinksModal } from './drink-modal';
 import { DrinksList } from './drink-list';
+import { PageListCard } from 'components/page-list';
 
 const KEY_LOCAL_STORAGE = 'drinksParams';
 const initialData = {
@@ -62,52 +63,60 @@ export const Drinks = () => {
     if (shouldRefetch) refetch();
   };
 
-  if (isError) return <div>Loading Drinks list is not sucessfull</div>;
+  if (isError) {
+    return (
+      <div className="rounded-xl border border-cream-200 bg-paper px-4 py-6 text-center text-espresso-700">
+        Không tải được danh sách đồ uống. Kiểm tra API đang chạy và{' '}
+        <code className="text-sm">VITE_APP_API_BASE_URL</code> trong{' '}
+        <code className="text-sm">apps/web/.env</code> (mặc định cổng 3000).
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="p-2 border-[#dedede] border-t border-l border-r rounded-t-md">
-        <div className="flex items-end justify-between">
-          <div className="flex items-end gap-2 w-full flex-1 mr-2">
-
-            <SearchField
-              onClear={handleClearSearch}
-              placeholder="Search..."
-              onSubmit={handleSubmitSearch}
-              onChange={setSearchBoxValue}
-              value={searchBoxValue}
-            />
+      <PageListCard
+        toolbar={
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex w-full flex-1 flex-col gap-2 sm:flex-row sm:items-end">
+              <SearchField
+                onClear={handleClearSearch}
+                placeholder="Tìm theo tên đồ uống..."
+                onSubmit={handleSubmitSearch}
+                onChange={setSearchBoxValue}
+                value={searchBoxValue}
+              />
+              <Button
+                className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-espresso-800 hover:bg-espresso-700"
+                onPress={handleClearData}
+              >
+                <AiOutlineClose />
+                Xóa lọc
+              </Button>
+            </div>
             <Button
-              className="btn-style bg-[#1c1c1c] hover:bg-[#3DA2D6] pressed:bg-[#3DA2D6]"
-              onPress={handleClearData}
+              className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-rust hover:bg-[#5c3b2e]"
+              onPress={toggle}
             >
-              <AiOutlineClose />{/* Clear search */}
+              <AiOutlinePlus />
+              Thêm đồ uống
             </Button>
           </div>
-
-          <Button
-            className="btn-style bg-[#3DA2D6] hover:bg-[#FCB912] pressed:bg-[#3DA2D6]"
-            onPress={toggle}
-          >
-            <AiOutlinePlus />{/* Add */}
-          </Button>
-        </div>
-      </div>
-      {isLoadingDrinks ? (
-        <Loading />
-      ) : (
-        <DrinksList
-          drinks={drinks}
-          onSelectRow={handleSelectRow}
-        />
-      )}
+        }
+      >
+        {isLoadingDrinks ? (
+          <Loading />
+        ) : (
+          <DrinksList drinks={drinks} onSelectRow={handleSelectRow} />
+        )}
+      </PageListCard>
 
       <DrinksModal
         isOpen={isModalOpen}
         onOpenChange={handleModalOpenChange}
         drink={selectedDrink}
         actionType={selectedDrink.drinkId ? ActionType.Edit : ActionType.Add}
-        title={selectedDrink.drinkId ? 'Edit Drink Data' : 'Add Drink Data'}
+        title={selectedDrink.drinkId ? 'Sửa đồ uống' : 'Thêm đồ uống'}
       />
     </>
   );

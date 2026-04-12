@@ -23,4 +23,8 @@ export class CoffeeTable extends CustomBaseEntity {
     @Column('varchar', { name: 'table_size', nullable: true })
     tableSize: string | null;
 
+    /** Chi nhánh quản lý bàn (null = chưa gán, nên cập nhật qua API hoặc gán khi nhận đơn lần đầu) */
+    @Column('int', { name: 'location_id', nullable: true })
+    locationId: number | null;
+
 }

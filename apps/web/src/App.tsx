@@ -19,6 +19,7 @@ import MasterData from 'modules/masters/master-data.page';
 import Locations from 'modules/locations/locations.page';
 import StaffAssignmentsPage from 'modules/staff-branch-roles/staff-assignments.page';
 import { Drinks } from 'modules/drinks/drinks.page';
+import TradingTodayPage from 'modules/trading/trading-today.page';
 
 
 
@@ -28,6 +29,11 @@ const App = () => {
       <>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<WelcomePage />} />
+          <Route
+            path="trading-today"
+            element={<TradingTodayPage />}
+            handle={{ title: 'Tình hình trong ngày' }}
+          />
           <Route
             path="locations"
             element={<Locations />}

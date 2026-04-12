@@ -1,5 +1,7 @@
 import { BaseQueryParamsDto } from '@modules/common/dto';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsInt, IsOptional, Min } from 'class-validator';
 
 // DTO để nhận các tham số truy vấn khi lấy danh sách người
 export class GetCoffeeTablesQueryDto extends PartialType(BaseQueryParamsDto) {
@@ -14,4 +16,11 @@ export class GetCoffeeTablesQueryDto extends PartialType(BaseQueryParamsDto) {
     description: 'Sort default by: coffeetable.tableNumber|ASC,coffeetable.age|ASC', // Mô tả về cách sắp xếp mặc định
   })
   tableNumber?: number; // Thuộc tính để lọc theo giới tính, có thể là chuỗi hoặc không có (undefined)
+
+  @ApiProperty({ required: false, description: 'Lọc bàn theo chi nhánh' })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  locationId?: number;
 }

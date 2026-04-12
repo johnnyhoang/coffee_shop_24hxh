@@ -13,6 +13,7 @@ import { MultiValue } from 'react-select';
 import { SearchField } from 'components/search-field';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { findBy } from 'utils';
+import { PageListCard } from 'components/page-list';
 
 const KEY_LOCAL_STORAGE = 'holidaysParams';
 
@@ -80,65 +81,67 @@ export const Holidays = () => {
 
   return (
     <>
-      <div className="p-2 border-[#dedede] border-t border-l border-r rounded-t-md">
-        <div className="flex items-end justify-between">
-          <div className="flex gap-2">
-            <Select
-              isMulti
-              width={180}
-              placeholder="Country"
-              options={countries}
-              onChange={handleChangeCountry}
-              value={selectedCountries}
-              isLoading={isLoadingCountries}
-            />
-            <Select
-              isMulti
-              width={180}
-              placeholder="Year"
-              options={years}
-              onChange={handleChangeYear}
-              value={selectedYears}
-              isLoading={isLoadingYears}
-            />
-            <SearchField
-              onClear={handleClearSearch}
-              placeholder="Holiday or Country..."
-              onSubmit={handleSubmitSearch}
-              onChange={setSearch}
-              value={search}
-            />
+      <PageListCard
+        toolbar={
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+            <div className="flex flex-1 flex-col flex-wrap gap-2 sm:flex-row sm:items-end">
+              <Select
+                isMulti
+                width={180}
+                placeholder="Quốc gia"
+                options={countries}
+                onChange={handleChangeCountry}
+                value={selectedCountries}
+                isLoading={isLoadingCountries}
+              />
+              <Select
+                isMulti
+                width={180}
+                placeholder="Năm"
+                options={years}
+                onChange={handleChangeYear}
+                value={selectedYears}
+                isLoading={isLoadingYears}
+              />
+              <SearchField
+                onClear={handleClearSearch}
+                placeholder="Tìm ngày lễ hoặc quốc gia..."
+                onSubmit={handleSubmitSearch}
+                onChange={setSearch}
+                value={search}
+              />
+              <Button
+                className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-espresso-800 hover:bg-espresso-700"
+                onPress={handleClearData}
+              >
+                <AiOutlineClose />
+                Xóa lọc
+              </Button>
+            </div>
             <Button
-              className="btn-style bg-[#1c1c1c] hover:bg-[#3DA2D6] pressed:bg-[#3DA2D6]"
-              onPress={handleClearData}
-            >
-              <AiOutlineClose />{/* Clear search */}
-            </Button>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              className="btn-style bg-[#3DA2D6] hover:bg-[#FCB912] pressed:bg-[#3DA2D6]"
+              className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-rust hover:bg-[#5c3b2e]"
               onPress={toggle}
             >
               <AiOutlinePlus />
-              Add Holiday
+              Thêm ngày lễ
             </Button>
           </div>
-        </div>
-      </div>
-      {isLoadingHolidays ? (
-        <Loading />
-      ) : (
-        <HolidayList
-          holidays={holidays || []}
-          key={JSON.stringify(queryParams)} // Use JSON.stringify for a more stable key
-          queryParams={queryParams}
-          onSelectRow={(holiday) => {
-            toggle();
-            setSelectedHoliday(holiday);
-          }}
-        />
-      )}
+        }
+      >
+        {isLoadingHolidays ? (
+          <Loading />
+        ) : (
+          <HolidayList
+            holidays={holidays || []}
+            key={JSON.stringify(queryParams)}
+            queryParams={queryParams}
+            onSelectRow={(holiday) => {
+              toggle();
+              setSelectedHoliday(holiday);
+            }}
+          />
+        )}
+      </PageListCard>
       <HolidayModal
         isOpen={isOpen}
         onOpenChange={(shouldRefetch: boolean) => {
@@ -148,7 +151,7 @@ export const Holidays = () => {
             refetch();
           }
         }}
-        title={selectedHoliday.holidayId ? 'Edit Holiday' : 'Add Holiday'}
+        title={selectedHoliday.holidayId ? 'Sửa ngày lễ' : 'Thêm ngày lễ'}
         holiday={selectedHoliday}
       />
     </>

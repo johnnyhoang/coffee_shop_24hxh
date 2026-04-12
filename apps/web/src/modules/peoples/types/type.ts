@@ -1,5 +1,10 @@
 import * as Yup from 'yup';
 
+/** Tham số lọc danh sách khách / people */
+export type PeopleQueryParams = {
+  q?: string;
+};
+
 // Define type for PeopleDTO (Data Transfer Object)
 export type TPeopleDTO = {
   peopleId?: number;
@@ -30,32 +35,32 @@ export const selectPeoples = (peoples: TPeopleDTO[]): TPeople[] =>
 
 // Schema for validating a People object (TPeople)
 export const peopleSchema = Yup.object().shape({
-  peopleId: Yup.number().optional(), // Optional field (not always present)
-  peopleName: Yup.string().required('People Name is required!'),
-  age: Yup.number().required('Age is required!'),
-  gender: Yup.string().required('Gender is required!'),
-  idNumber: Yup.string().required('ID Number is required!'),
+  peopleId: Yup.number().optional(),
+  peopleName: Yup.string().required('Nhập họ tên'),
+  age: Yup.number().required('Nhập tuổi'),
+  gender: Yup.string().required('Nhập giới tính'),
+  idNumber: Yup.string().required('Nhập số CMND/CCCD hoặc mã định danh'),
 });
 
 // Column titles for displaying people in a table format
 export const PEOPLE_COLUMNS = [
   {
-    label: 'People Name',
+    label: 'Họ tên',
     key: 'peopleName',
     width: 150,
   },
   {
-    label: 'Ages',
+    label: 'Tuổi',
     key: 'age',
     width: 120,
   },
   {
-    label: 'Gender',
+    label: 'Giới tính',
     key: 'gender',
     width: 220,
   },
   {
-    label: 'ID Number',
+    label: 'CMND/CCCD',
     key: 'idNumber',
     width: 220,
   },

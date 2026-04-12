@@ -14,8 +14,9 @@ declare module 'react' {
   ): (props: P & React.RefAttributes<T>) => React.ReactNode | null;
 }
 
-const ROW_HEIGHT = 36;
-const HEADER_HEIGHT = 70;
+/** Đồng bộ với hooks/use-table (chiều cao hàng dễ chạm, mobile-first) */
+const ROW_HEIGHT = 44;
+const HEADER_HEIGHT = 52;
 
 export const VirtualizationTableInner = <T,>(
   {
@@ -36,11 +37,15 @@ export const VirtualizationTableInner = <T,>(
   };
 
   const getRowClassName = ({ index }: Index) => {
-    // for the header row an index of -1 is provided
-    return clsx('flex border-b border-[#dedede] text-left text-sm', {
-      'font-bold bg-[#f8f9fa]': index === -1,
-      'hover:cursor-pointer': index !== -1,
-    });
+    return clsx(
+      'flex border-b border-cream-200/90 text-left text-sm text-espresso-800',
+      {
+        'cursor-default bg-cream-100/95 font-display font-semibold tracking-tight text-espresso-900 shadow-[inset_0_-1px_0_0_rgba(229,217,200,0.9)]':
+          index === -1,
+        'cursor-pointer transition-colors hover:bg-cream-50 active:bg-cream-100/80':
+          index !== -1,
+      },
+    );
   };
 
   const tableProps = {
@@ -49,9 +54,13 @@ export const VirtualizationTableInner = <T,>(
     disableHeader: false,
     rowCount: dataSource ? dataSource.length : 0,
     overscanRowCount: 10,
-    className: 'shadow-[0_0_0_1px_#dedede]',
+    className: 'shadow-none',
     rowClassName: getRowClassName,
-    noRowsRenderer: () => <div>No rows</div>,
+    noRowsRenderer: () => (
+      <div className="flex min-h-[120px] items-center justify-center px-4 py-8 text-sm text-espresso-500">
+        Không có dữ liệu
+      </div>
+    ),
     ...rest,
   };
 

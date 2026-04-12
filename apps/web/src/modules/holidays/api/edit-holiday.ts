@@ -7,17 +7,17 @@ import { THoliday } from '../types';
 
 const editHoliday = (data: THoliday) => {
   const { holidayId, ...editData } = data;
-  return axios.put(`/holidays/${holidayId}`, editData);
+  return axios.put(`holidays/${holidayId}`, editData);
 };
 
 export const useEditHoliday = () => {
   return useMutation({
     mutationFn: editHoliday,
     onSuccess: () => {
-      toast.success('Holiday updated successfully');
+      toast.success('Đã cập nhật ngày lễ');
       queryClient.invalidateQueries({ queryKey: ['holidays'] });
     },
     onError: (error) =>
-      toast.error('Failed to edit a Holiday: ' + error?.message),
+      toast.error('Không cập nhật được ngày lễ: ' + error?.message),
   });
 };

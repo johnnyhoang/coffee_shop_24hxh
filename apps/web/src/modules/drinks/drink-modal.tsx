@@ -80,21 +80,21 @@ export const DrinksModal = ({
 
                     <Field
                       name="drinkName"
-                      label={<span className="reqfield-label">*Category</span>}
-                      placeholder="Pick a category"
+                      label={<span className="reqfield-label">*Tên đồ uống</span>}
+                      placeholder="Ví dụ: Cà phê sữa đá"
                     />
                     <Field
                       name="price"
-                      label={<span className="reqfield-label">*Price</span>}
-                      placeholder="Set a Value"
+                      label={<span className="reqfield-label">*Giá</span>}
+                      placeholder="Giá (VNĐ)"
                     />
                     <Field
                       rows={2}
                       cols={2}
                       as="textarea"
                       name="description"
-                      placeholder="Description of the category as detail as possible"
-                      label="Description"
+                      placeholder="Mô tả ngắn (tuỳ chọn)"
+                      label="Mô tả"
                       maxLength={1000}
                     />
                   </div>
@@ -105,7 +105,7 @@ export const DrinksModal = ({
                         isPendingMutate || !isFormValid || !formChanged
                       }
                     >
-                      {isPendingMutate ? 'Saving...' : 'Save'}
+                      {isPendingMutate ? 'Đang lưu...' : 'Lưu'}
                     </Button>
                     <ConfirmationModal handler={handleDelete}>
                       <Button
@@ -115,7 +115,7 @@ export const DrinksModal = ({
                           isPendingMutate || !isFormValid || formChanged
                         }
                       >
-                        {isPendingMutate ? 'Deleting...' : 'Delete'}
+                        {isPendingMutate ? 'Đang xóa...' : 'Xóa'}
                       </Button>
                     </ConfirmationModal>
                   </div>

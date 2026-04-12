@@ -15,6 +15,7 @@ import { PeopleModule } from '@modules/people/people.module';
 
 import { CoffeeTableModule } from '@modules/coffeetable/coffeetable.module';
 import { StaffBranchRoleModule } from '@modules/staff-branch-role/staff-branch-role.module';
+import { TableSessionModule } from '@modules/table-session/table-session.module';
 
 import { DrinksModule } from '@modules/drinks/drinks.module';
 
@@ -124,6 +125,7 @@ import { typeOrmOptionsFromDatabaseUrl } from './configs/postgres-from-url';
     MasterDataModule,
     PeopleModule,
     CoffeeTableModule,
+    TableSessionModule,
     StaffBranchRoleModule,
   ],
   controllers: [AppController], // Các bộ điều khiển của ứng dụng

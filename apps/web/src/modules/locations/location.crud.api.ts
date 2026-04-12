@@ -7,7 +7,7 @@ import { queryClient } from '../../lib/react-query';
 
 const addLocation = (data: TLocation) => {
   const { locationId, ...addData } = data; //add thì bỏ đi ID nếu có
-  return axios.post(`/locations`, addData);
+  return axios.post('locations', addData);
 };
 
 export const useAddLocation = () => {
@@ -23,7 +23,7 @@ export const useAddLocation = () => {
 };
 
 const deleteLocation = (locationId: string) => {
-  return axios.delete(`/locations/${locationId}`);
+  return axios.delete(`locations/${locationId}`);
 };
 
 export const useDeleteLocation = () => {
@@ -42,7 +42,7 @@ export const useDeleteLocation = () => {
 
 const editLocation = (data: TLocation) => {
   const { locationId, ...editData } = data; //phần data bỏ đi các giá trị thừa
-  return axios.put(`/locations/${locationId}`, editData);
+  return axios.put(`locations/${locationId}`, editData);
 };
 
 export const useEditLocation = () => {

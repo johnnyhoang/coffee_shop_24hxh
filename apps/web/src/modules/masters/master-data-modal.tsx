@@ -13,7 +13,7 @@ import { ActionType, BaseModalProps } from 'types';
 import { ComboBoxItem } from 'components/combobox';
 import { useAddMasterData, useDeleteMasterData, useEditMasterData } from './master-data.crud.api';
 import { masterDataSchema, TMasterData } from './master-data.types';
-import axios from 'axios';
+import { axios } from 'lib/axios';
 import { useQuery } from '@tanstack/react-query';
 import { DropdownItem } from 'common/types';
 
@@ -31,12 +31,13 @@ export const MasterDataModal = ({
 
   const { data: categories, } = useQuery<DropdownItem[]>({
     queryKey: ['master-data-categories'],  // queryKey is now correctly passed as part of an object
-    queryFn: () => axios.get('/master-data/categories').then((response) => response.data),  // queryFn with no params
+    queryFn: () =>
+      axios.get('master-data/categories').then((response) => response.data),
   });
 
   const { data: parentList } = useQuery<DropdownItem[]>({
     queryKey: ['master-data-parent'],  // No dynamic params in queryKey
-    queryFn: () => axios.get('/master-data/data').then(res => res.data)  // No params passed in the request
+    queryFn: () => axios.get('master-data/data').then((res) => res.data),
   });
 
   const { mutate: addMasterData, isPending: isAddingMasterData } =
@@ -88,8 +89,8 @@ export const MasterDataModal = ({
                     <Field
                       as="select"
                       name="parentDataId"
-                      label="Parent Category"
-                      placeholder="Pick a parent category"
+                      label="Danh mục cha"
+                      placeholder="Chọn danh mục cha"
                       items={parentList}
                     >
                       {parentList?.map(({ key, value, label }) => (
@@ -108,21 +109,21 @@ export const MasterDataModal = ({
                     />
                     <Field
                       name="value"
-                      label="Value"
-                      placeholder="Set a Value"
+                      label="Giá trị"
+                      placeholder="Nhập giá trị hiển thị"
                     />
                     <Field
                       type="number"
                       name="code"
-                      placeholder="Code"
-                      label="Code"
+                      placeholder="Mã số"
+                      label="Mã"
                     />
                     <Field
                       rows={2}
                       as="textarea"
                       name="description"
-                      placeholder="Description"
-                      label="Description"
+                      placeholder="Mô tả (tuỳ chọn)"
+                      label="Mô tả"
                     />
                   </div>
                   <div className="flex justify-end p-4 gap-2">
@@ -130,7 +131,7 @@ export const MasterDataModal = ({
                       type="submit"
                       isDisabled={isPendingMutate || !isFormValid || !formChanged}
                     >
-                      {isPendingMutate ? 'Saving...' : 'Save'}
+                      {isPendingMutate ? 'Đang lưu...' : 'Lưu'}
                     </Button>
                     <ConfirmationModal handler={handleDelete}>
                       <Button
@@ -138,7 +139,7 @@ export const MasterDataModal = ({
                         type="button"
                         isDisabled={isPendingMutate || !isFormValid || formChanged}
                       >
-                        {isPendingMutate ? 'Deleting...' : 'Delete'}
+                        {isPendingMutate ? 'Đang xóa...' : 'Xóa'}
                       </Button>
                     </ConfirmationModal>
                   </div>

@@ -4,7 +4,8 @@ import { axios } from 'lib/axios';
 import { DropdownItem } from 'common/types';
 
 const getYears = async (): Promise<DropdownItem[]> => {
-  return axios.get('/holidays/data');
+  const { data } = await axios.get('holidays/data');
+  return data;
 };
 
 export const useYears = () =>

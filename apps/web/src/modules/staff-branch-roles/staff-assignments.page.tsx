@@ -11,6 +11,7 @@ import { ActionType } from 'types';
 
 import { StaffAssignmentList } from './staff-assignment-list';
 import { StaffAssignmentModal } from './staff-assignment-modal';
+import { PageListCard } from 'components/page-list';
 import {
   DEFAULT_STAFF_ASSIGNMENT,
   mapStaffAssignmentRow,
@@ -117,54 +118,56 @@ const StaffAssignmentsPage = () => {
 
   return (
     <>
-      <div className="p-2 border-cream-200 border-t border-l border-r rounded-t-xl bg-paper/80">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-end">
-            <label className="flex min-w-[200px] flex-col gap-1 text-sm text-espresso-700">
-              Chi nhánh
-              <select
-                className="rounded-lg border border-cream-300 bg-paper px-3 py-2 text-espresso-900"
-                value={locationIdFilter === '' ? '' : String(locationIdFilter)}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  setLocationIdFilter(v === '' ? '' : Number(v));
-                }}
+      <PageListCard
+        toolbar={
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-end">
+              <label className="flex min-w-[200px] flex-col gap-1 text-sm text-espresso-700">
+                Chi nhánh
+                <select
+                  className="min-h-[44px] rounded-lg border border-cream-300 bg-paper px-3 py-2 text-espresso-900"
+                  value={locationIdFilter === '' ? '' : String(locationIdFilter)}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setLocationIdFilter(v === '' ? '' : Number(v));
+                  }}
+                >
+                  {branchFilterOptions.map((o) => (
+                    <option key={String(o.value)} value={o.value === '' ? '' : String(o.value)}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <SearchField
+                placeholder="Tìm theo tên nhân viên, chi nhánh..."
+                onChange={setSearchKey}
+                value={q}
+              />
+              <Button
+                className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-espresso-800 hover:bg-espresso-700"
+                onPress={handleClearSearch}
               >
-                {branchFilterOptions.map((o) => (
-                  <option key={String(o.value)} value={o.value === '' ? '' : String(o.value)}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <SearchField
-              placeholder="Tìm theo tên nhân viên, chi nhánh..."
-              onChange={setSearchKey}
-              value={q}
-            />
+                <AiOutlineClose />
+                Xóa lọc
+              </Button>
+            </div>
             <Button
-              className="btn-style bg-espresso-800 hover:bg-espresso-700"
-              onPress={handleClearSearch}
+              className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-rust hover:bg-[#5c3b2e]"
+              onPress={openAdd}
             >
-              <AiOutlineClose />
-              Xóa lọc
+              <AiOutlinePlus />
+              Thêm phân công
             </Button>
           </div>
-          <Button
-            className="btn-style bg-rust hover:bg-[#5c3b2e]"
-            onPress={openAdd}
-          >
-            <AiOutlinePlus />
-            Thêm phân công
-          </Button>
-        </div>
-      </div>
-
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <StaffAssignmentList rows={rows} onSelectRow={handleSelectRow} />
-      )}
+        }
+      >
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <StaffAssignmentList rows={rows} onSelectRow={handleSelectRow} />
+        )}
+      </PageListCard>
 
       <StaffAssignmentModal
         key={`${form.staffBranchRoleId ?? 'new'}-${form.peopleId}-${form.locationId}`}

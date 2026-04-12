@@ -8,12 +8,13 @@ import { MultiValue } from 'react-select';
 import { MasterDataList } from './master-data-list';
 import { useSessionQuery } from 'hooks/use-session-query';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { axios } from 'lib/axios';
 import { Select } from 'components/select';
 import { Button } from 'components/button';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { MasterDataModal } from './master-data-modal';
 import { ActionType } from 'types';
+import { PageListCard } from 'components/page-list';
 
 const KEY_LOCAL_STORAGE = 'masterDataList'; //key LocalStorage lưu trữ trên browser dung useSessionQuery
 const initialData = {
@@ -48,7 +49,8 @@ const MasterData = () => {
 
   const { data: categories, isLoading: isLoadingCategories } = useQuery<DropdownItem[]>({
     queryKey: ['master-data-categories'],  // queryKey is now correctly passed as part of an object
-    queryFn: () => axios.get('/master-data/categories').then((response) => response.data),  // queryFn with no params
+    queryFn: () =>
+      axios.get('master-data/categories').then((response) => response.data),
   });
 
   // Biến này để giữ giá trị đã chọn trong dropdown
@@ -73,77 +75,77 @@ const MasterData = () => {
   const [selectedMasterItem, setSelectedMasterItem] = useState(DEFAULT_MASTER_ITEM);
 
   // RENDER
-  if (isError) return <div>Error loading master data: {error.message}</div>;
-  if (isLoading) { return <div>Loading...</div>; }
+  if (isError) {
+    return (
+      <div className="rounded-xl border border-cream-200 bg-paper px-4 py-6 text-center text-espresso-700">
+        Không tải được danh mục: {error?.message ?? 'Lỗi mạng hoặc API chưa chạy.'}
+      </div>
+    );
+  }
   return (
     <>
-      <div className="p-2 border-[#dedede] border-t border-l border-r rounded-t-md">
-        <div className="flex items-end justify-between">
-          <div className="flex items-end gap-2 w-full flex-1 mr-2">
-            {/* Dropdown filter for category */}
-            {<Select
-              isMulti
-              name="category"
-              placeholder="Category"
-              options={categories}
-              value={dropdownSelectedCategories}
-              isLoading={isLoadingCategories}
-              onChange={handleCategoryChange}
-            />}
-
-            {/* Search field */}
-            <SearchField
-              placeholder="Search by various info..."
-              onChange={handleSearchChange}
-              value={searchBoxValue}
-            />
-
-            {/* Clear search button */}
+      <PageListCard
+        toolbar={
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex w-full flex-1 flex-col gap-2 sm:flex-row sm:items-end">
+              <Select
+                isMulti
+                name="category"
+                placeholder="Nhóm danh mục"
+                options={categories}
+                value={dropdownSelectedCategories}
+                isLoading={isLoadingCategories}
+                onChange={handleCategoryChange}
+              />
+              <SearchField
+                placeholder="Tìm theo mã, giá trị, mô tả..."
+                onChange={handleSearchChange}
+                value={searchBoxValue}
+              />
+              <Button
+                className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-espresso-800 hover:bg-espresso-700"
+                onPress={handleClearData}
+              >
+                <AiOutlineClose />
+                Xóa lọc
+              </Button>
+            </div>
             <Button
-              className="btn-style bg-[#1c1c1c] hover:bg-[#3DA2D6] pressed:bg-[#3DA2D6]"
-              onPress={handleClearData}
+              className="btn-style inline-flex min-h-[44px] items-center gap-2 bg-rust hover:bg-[#5c3b2e]"
+              onPress={toggle}
             >
-              <AiOutlineClose />
+              <AiOutlinePlus />
+              Thêm mục
             </Button>
           </div>
-
-          {/* Add master data button */}
-          <Button
-            className="btn-style bg-[#3DA2D6] hover:bg-[#FCB912] pressed:bg-[#3DA2D6]"
-            onPress={toggle}
-          >
-            <AiOutlinePlus />
-            Add Master Data
-          </Button>
-          <MasterDataModal
-            isOpen={isModalOpen}
-            onOpenChange={(shouldRefetch: boolean) => {
+        }
+      >
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <MasterDataList
+            masterDataList={masterDataList ?? []}
+            queryParams={queryParams}
+            key={JSON.stringify(queryParams)}
+            onSelectRow={(selectedMasterItem) => {
               toggle();
-              setSelectedMasterItem(DEFAULT_MASTER_ITEM);
-              if (shouldRefetch)
-                refetch();
+              setSelectedMasterItem(selectedMasterItem);
             }}
-            actionType={selectedMasterItem.dataId ? ActionType.Edit : ActionType.Add}
-            title={selectedMasterItem.dataId ? 'Edit Master Data' : 'Add Master Data'}
-            masterItem={selectedMasterItem}
           />
-        </div>
-      </div>
+        )}
+      </PageListCard>
 
-      {/* Display loading indicator or list of master data */}
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <MasterDataList
-          masterDataList={masterDataList}
-          queryParams={queryParams}
-          key={JSON.stringify(queryParams)}
-          onSelectRow={(selectedMasterItem) => {
-            toggle();
-            setSelectedMasterItem(selectedMasterItem); // Set selected item
-          }}
-        />
-      )}
+      <MasterDataModal
+        isOpen={isModalOpen}
+        onOpenChange={(shouldRefetch: boolean) => {
+          toggle();
+          setSelectedMasterItem(DEFAULT_MASTER_ITEM);
+          if (shouldRefetch) refetch();
+        }}
+        actionType={selectedMasterItem.dataId ? ActionType.Edit : ActionType.Add}
+        title={selectedMasterItem.dataId ? 'Sửa danh mục' : 'Thêm danh mục'}
+        masterItem={selectedMasterItem}
+      />
     </>
   );
 };

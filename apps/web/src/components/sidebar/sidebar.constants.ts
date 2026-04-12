@@ -2,6 +2,7 @@ import {
   BuildingOffice2Icon,
   BuildingStorefrontIcon,
   HomeIcon,
+  Squares2X2Icon,
   UserGroupIcon,
   WrenchScrewdriverIcon,
 } from '@heroicons/react/24/outline';
@@ -40,6 +41,13 @@ export const menus: Menu[] = [
     id: 'operations',
     label: 'Vận hành',
     items: [
+      {
+        id: 14,
+        label: 'Tình hình trong ngày',
+        key: 'trading-today',
+        path: '/trading-today',
+        Icon: Squares2X2Icon,
+      },
       {
         id: 11,
         label: 'Khách / People',
@@ -88,8 +96,8 @@ export const menus: Menu[] = [
 /** Thanh điều hướng dưới (mobile): tối đa 5 mục rõ ràng */
 export const bottomNavPaths = [
   { path: '/', label: 'Trang chủ', end: true },
+  { path: '/trading-today', label: 'Hôm nay', end: false },
   { path: '/drinks', label: 'Đồ uống', end: false },
   { path: '/people', label: 'Khách', end: false },
   { path: '/locations', label: 'Chi nhánh', end: false },
-  { path: '/masters', label: 'Danh mục', end: false },
 ] as const;

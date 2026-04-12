@@ -6,18 +6,18 @@ import { TPeople } from '../types/type';
 
 const editPeople = (data: TPeople) => {
   const { peopleId, ...editData } = data;
-  return axios.put(`/peoples/${peopleId}`, editData);
+  return axios.put(`peoples/${peopleId}`, editData);
 };
 
 export const useEditPeople = () => {
-  return useMutation<void, Error, TPeople>({
+  return useMutation({
     mutationFn: editPeople,
     onSuccess: () => {
-      toast.success('People updated successfully');
+      toast.success('Đã cập nhật khách');
       queryClient.invalidateQueries({ queryKey: ['peoples'] });
     },
     onError: (error: Error) => {
-      toast.error('Failed to edit a People: ' + error.message);
+      toast.error('Không cập nhật được: ' + error.message);
     },
   });
 };

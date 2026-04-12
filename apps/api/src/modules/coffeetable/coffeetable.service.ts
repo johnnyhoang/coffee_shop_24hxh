@@ -74,9 +74,12 @@ export class CoffeeTableService extends BaseService {
       { [`${this.coffeetableAlias}.tableNumber`]: 'ASC' },
     ];
 
+    const whereSql =
+      conditions.length > 0 ? conditions.join(' AND ') : '1=1';
+
     let searchQuery = manager
       .createQueryBuilder(CoffeeTable, this.coffeetableAlias)
-      .where(conditions.join(' AND '), params);
+      .where(whereSql, params);
 
     // Thêm các tiêu chí sắp xếp vào truy vấn
     orderBys.forEach((orderBy) => {
@@ -179,7 +182,10 @@ export class CoffeeTableService extends BaseService {
       params.search = `%${query.q.trim()}%`;
     }
 
-
+    if (query.locationId != null) {
+      conditions.push(`${this.coffeetableAlias}.location_id = :locationId`);
+      params.locationId = query.locationId;
+    }
 
     return [conditions, params];
   }

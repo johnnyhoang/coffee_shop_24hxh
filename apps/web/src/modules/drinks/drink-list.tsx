@@ -1,14 +1,11 @@
-import {
-  Column,
-  RowMouseEventHandlerParams,
-  TableCellProps,
-  TableHeaderProps,
-} from 'react-virtualized';
+import { Column, RowMouseEventHandlerParams } from 'react-virtualized';
 
 import { DRINK_COLUMNS, TDrink } from './drinks.types';
-import { VirtualizationTable } from 'components/virtualization-table';
-
-import clsx from 'clsx';
+import {
+  defaultBodyCell,
+  defaultHeaderCell,
+  VirtualizationTable,
+} from 'components/virtualization-table';
 
 type DrinksListProps = {
   drinks: TDrink[];
@@ -25,16 +22,11 @@ export const DrinksList = ({
   };
 
   return (
-    <div
-      className={clsx(
-        'flex flex-col flex-[1_0_auto] overflow-auto',
-        'border border-[#dedede]',
-      )}
-    >
+    <div className="min-h-0 overflow-auto">
       <VirtualizationTable<TDrink>
         dataSource={drinks}
         onRowClick={handleRowClick}
-        headerClassName="p-2 border-r"
+        headerClassName="border-r border-cream-200/60 last:border-r-0"
       >
         {DRINK_COLUMNS.map(({ key, label, width }) => (
           <Column
@@ -42,19 +34,11 @@ export const DrinksList = ({
             label={label}
             dataKey={key}
             width={width}
-            headerRenderer={headerRenderer}
-            cellRenderer={cellRenderer}
+            headerRenderer={defaultHeaderCell}
+            cellRenderer={defaultBodyCell}
           />
         ))}
       </VirtualizationTable>
     </div>
   );
-};
-
-const headerRenderer = ({ label }: TableHeaderProps) => {
-  return <span>{label}</span>;
-};
-
-const cellRenderer = ({ rowData, dataKey }: TableCellProps) => {
-  return <span title={rowData[dataKey]}>{rowData[dataKey]}</span>;
 };

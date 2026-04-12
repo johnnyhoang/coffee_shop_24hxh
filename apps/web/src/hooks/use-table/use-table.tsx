@@ -1,7 +1,7 @@
 import { useCallback, useRef, useMemo } from 'react';
 
-const ROW_HEIGHT = 36;
-const HEADER_HEIGHT = 70;
+const ROW_HEIGHT = 44;
+const HEADER_HEIGHT = 52;
 
 const getScrollBarWidth = () => {
   const inner = document.createElement('p');

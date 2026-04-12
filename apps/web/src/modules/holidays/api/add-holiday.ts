@@ -5,17 +5,17 @@ import { queryClient } from 'lib/react-query';
 import { THoliday } from '../types';
 
 const addHoliday = (data: THoliday) => {
-  return axios.post(`/holidays`, data);
+  return axios.post('holidays', data);
 };
 
 export const useAddHoliday = () => {
   return useMutation({
     mutationFn: addHoliday,
     onSuccess: () => {
-      toast.success('Holiday added successfully');
+      toast.success('Đã thêm ngày lễ');
       queryClient.invalidateQueries({ queryKey: ['holidays'] });
     },
     onError: (error) =>
-      toast.error('Failed to add a Holiday: ' + error?.message),
+      toast.error('Không thêm được ngày lễ: ' + error?.message),
   });
 };

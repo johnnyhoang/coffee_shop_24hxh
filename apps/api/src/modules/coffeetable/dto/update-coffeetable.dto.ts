@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
 
 // DTO để cập nhật thông tin của một người
 export class UpdateCoffeeTableDto {
@@ -15,4 +15,9 @@ export class UpdateCoffeeTableDto {
     @IsOptional()
     @IsString()
     tableSize?: string | null;
+
+    @IsOptional()
+    @IsInt()
+    @Min(1)
+    locationId?: number | null;
 }

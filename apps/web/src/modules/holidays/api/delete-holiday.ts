@@ -4,17 +4,17 @@ import { axios } from 'lib/axios';
 import { queryClient } from 'lib/react-query';
 
 const deleteHoliday = (holidayId: string) => {
-  return axios.delete(`/holidays/${holidayId}`);
+  return axios.delete(`holidays/${holidayId}`);
 };
 
 export const useDeleteHoliday = () => {
   return useMutation({
     mutationFn: deleteHoliday,
     onSuccess: () => {
-      toast.success('Holiday deleted successful');
+      toast.success('Đã xóa ngày lễ');
       queryClient.invalidateQueries({ queryKey: ['holidays'] });
     },
     onError: (error) =>
-      toast.error('Failed to remove a Holiday: ' + error?.message),
+      toast.error('Không xóa được ngày lễ: ' + error?.message),
   });
 };

@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'config/axios.config';
+import { axios } from 'lib/axios';
 import { PeopleQueryParams, TPeopleDTO } from '../types/type';
 
-export type TUsePeoples<T> = {
+export type TUsePeoples<T> = Partial<PeopleQueryParams> & {
   select?: (data: TPeopleDTO[]) => T;
-}
+};
 
 export const getPeoples = async ({
   queryKey,

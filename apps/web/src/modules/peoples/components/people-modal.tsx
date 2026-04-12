@@ -71,10 +71,10 @@ export const PeopleModal = ({ title, isOpen, people, onOpenChange }: PeopleModal
                 <>
                   {/* Form Fields */}
                   <div className="grid gap-4 grid-cols-2">
-                    <Field name="peopleName" label="*People name" placeholder="Enter name" />
-                    <Field name="age" label="*Age" placeholder="Enter age" />
-                    <Field name="gender" label="*Gender" placeholder="Enter gender" />
-                    <Field name="idNumber" label="*ID Number" placeholder="Enter ID number" />
+                    <Field name="peopleName" label="*Họ tên" placeholder="Họ và tên" />
+                    <Field name="age" label="*Tuổi" placeholder="Tuổi" />
+                    <Field name="gender" label="*Giới tính" placeholder="Nam / Nữ / Khác" />
+                    <Field name="idNumber" label="*CMND/CCCD" placeholder="Số giấy tờ" />
                   </div>
 
                   {/* Form Actions */}
@@ -84,7 +84,7 @@ export const PeopleModal = ({ title, isOpen, people, onOpenChange }: PeopleModal
                       type="submit"
                       isDisabled={isPending || !isFormValid || !formChanged}
                     >
-                      {isPending ? 'Saving...' : 'Save'}
+                      {isPending ? 'Đang lưu...' : 'Lưu'}
                     </Button>
 
                     {/* Delete Button with Confirmation */}
@@ -94,7 +94,7 @@ export const PeopleModal = ({ title, isOpen, people, onOpenChange }: PeopleModal
                         type="button"
                         isDisabled={isPending || !isFormValid || formChanged}
                       >
-                        {isPending ? 'Deleting...' : 'Delete'}
+                        {isPending ? 'Đang xóa...' : 'Xóa'}
                       </Button>
                     </ConfirmationModal>
                   </div>

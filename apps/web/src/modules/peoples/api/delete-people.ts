@@ -3,18 +3,18 @@ import toast from 'react-hot-toast';
 import { axios } from 'lib/axios';
 import { queryClient } from 'lib/react-query';
 
-const deletePeople = (peopleId: string): Promise<void> => {
-  return axios.delete(`/peoples/${peopleId}`);
+const deletePeople = (peopleId: string) => {
+  return axios.delete(`peoples/${peopleId}`);
 };
 
 export const useDeletePeople = () => {
-  return useMutation<void, Error, string>({
+  return useMutation({
     mutationFn: deletePeople,
     onSuccess: () => {
-      toast.success('People deleted successfully');
+      toast.success('Đã xóa khách');
       queryClient.invalidateQueries({ queryKey: ['peoples'] });
     },
     onError: (error: Error) =>
-      toast.error('Failed to remove a People: ' + error.message),
+      toast.error('Không xóa được: ' + error.message),
   });
 };

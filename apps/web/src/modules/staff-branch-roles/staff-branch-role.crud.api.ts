@@ -12,7 +12,7 @@ const invalidate = () => {
 export const useAddStaffAssignment = () => {
   return useMutation({
     mutationFn: (data: Pick<TStaffAssignmentForm, 'peopleId' | 'locationId' | 'role'>) =>
-      axios.post('/staff-branch-roles', {
+      axios.post('staff-branch-roles', {
         peopleId: data.peopleId,
         locationId: data.locationId,
         role: data.role,
@@ -34,7 +34,7 @@ export const useEditStaffAssignment = () => {
       locationId?: number;
       role?: string;
     }) =>
-      axios.put(`/staff-branch-roles/${payload.staffBranchRoleId}`, {
+      axios.put(`staff-branch-roles/${payload.staffBranchRoleId}`, {
         ...(payload.locationId !== undefined ? { locationId: payload.locationId } : {}),
         ...(payload.role !== undefined ? { role: payload.role } : {}),
       }),
@@ -51,7 +51,7 @@ export const useEditStaffAssignment = () => {
 export const useDeleteStaffAssignment = () => {
   return useMutation({
     mutationFn: (staffBranchRoleId: number) =>
-      axios.delete(`/staff-branch-roles/${staffBranchRoleId}`),
+      axios.delete(`staff-branch-roles/${staffBranchRoleId}`),
     onSuccess: () => {
       toast.success('Đã xóa phân công');
       invalidate();

@@ -4,7 +4,10 @@ import { axios } from 'lib/axios';
 import { DropdownItem } from 'common/types';
 
 const getCountries = async (): Promise<DropdownItem[]> => {
-  return axios.get('/locations/country?orderBy=location.country|ASC');
+  const { data } = await axios.get('locations/country', {
+    params: { orderBy: 'location.country|ASC' },
+  });
+  return data;
 };
 
 export const useCountries = () =>

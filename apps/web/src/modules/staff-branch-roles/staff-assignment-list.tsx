@@ -1,10 +1,9 @@
+import { Column, RowMouseEventHandlerParams } from 'react-virtualized';
 import {
-  Column,
-  RowMouseEventHandlerParams,
-  TableCellProps,
-  TableHeaderProps,
-} from 'react-virtualized';
-import { VirtualizationTable } from 'components/virtualization-table';
+  defaultBodyCell,
+  defaultHeaderCell,
+  VirtualizationTable,
+} from 'components/virtualization-table';
 import { STAFF_ASSIGNMENT_COLUMNS, TStaffAssignmentRow } from './staff-assignment.types';
 
 type StaffAssignmentListProps = {
@@ -12,30 +11,17 @@ type StaffAssignmentListProps = {
   onSelectRow: (row: TStaffAssignmentRow) => void;
 };
 
-const headerRenderer = ({ label }: TableHeaderProps) => (
-  <span className="text-espresso-800">{label}</span>
-);
-
-const cellRenderer = ({ rowData, dataKey }: TableCellProps) => (
-  <span className="block truncate text-espresso-800" title={String(rowData[dataKey] ?? '')}>
-    {rowData[dataKey]}
-  </span>
-);
-
 export function StaffAssignmentList({ rows, onSelectRow }: StaffAssignmentListProps) {
   const handleRowClick = ({ rowData }: RowMouseEventHandlerParams) => {
     onSelectRow(rowData as TStaffAssignmentRow);
   };
 
-  if (!rows?.length) {
-    return <div className="p-4 text-center text-espresso-600">Chưa có phân công nào.</div>;
-  }
-
   return (
-    <div className="flex flex-col overflow-auto border border-cream-200 rounded-b-lg">
+    <div className="min-h-0 overflow-auto">
       <VirtualizationTable<TStaffAssignmentRow>
-        dataSource={rows}
+        dataSource={rows ?? []}
         onRowClick={handleRowClick}
+        headerClassName="border-r border-cream-200/60 last:border-r-0"
       >
         {STAFF_ASSIGNMENT_COLUMNS.map(({ key, label, width }) => (
           <Column
@@ -43,8 +29,8 @@ export function StaffAssignmentList({ rows, onSelectRow }: StaffAssignmentListPr
             label={label}
             dataKey={key}
             width={width}
-            headerRenderer={headerRenderer}
-            cellRenderer={cellRenderer}
+            headerRenderer={defaultHeaderCell}
+            cellRenderer={defaultBodyCell}
           />
         ))}
       </VirtualizationTable>

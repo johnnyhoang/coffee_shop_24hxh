@@ -3,17 +3,17 @@ import { THoliday } from '../types';
 
 export const COLUMN_TITLES = [
   {
-    label: 'Holiday',
+    label: 'Ngày',
     key: 'holiday',
     width: 120,
   },
   {
-    label: 'Country',
+    label: 'Quốc gia',
     key: 'country',
     width: 150,
   },
   {
-    label: 'Holiday Name',
+    label: 'Tên ngày lễ',
     key: 'holidayName',
     width: 200,
   },
@@ -32,7 +32,7 @@ export const DEFAULT_HOLIDAY: THoliday = {
 };
 
 export const holidaySchema = object({
-  holiday: date().required('This field is required!'),
-  holidayName: string().required('This field is required!'),
-  country: string().required('This field is required!'),
+  holiday: date().required('Chọn ngày'),
+  holidayName: string().required('Nhập tên ngày lễ'),
+  country: string().required('Nhập quốc gia'),
 });

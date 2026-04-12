@@ -38,27 +38,27 @@ export const transformMasterData = (masterDataList: TMasterDataDTO[]): TMasterDa
 
 export const MASTER_DATA_COLUMNS = [
   {
-    label: 'Parent Value',
+    label: 'Giá trị cha',
     key: 'parentDataValue',
     width: 250,
   },
   {
-    label: 'Category',
+    label: 'Nhóm',
     key: 'category',
     width: 150,
   },
   {
-    label: 'Value',
+    label: 'Giá trị',
     key: 'value',
     width: 200,
   },
   {
-    label: 'Code Num',
+    label: 'Mã',
     key: 'code',
     width: 80,
   },
   {
-    label: 'Description',
+    label: 'Mô tả',
     key: 'description',
     width: 400,
   },
@@ -74,8 +74,8 @@ export const DEFAULT_MASTER_ITEM: TMasterData = {
 };
 
 export const masterDataSchema = object({
-  category: string().trim().required('This field is required!'),
-  value: string().trim().required('This field is required!'),
-  code: number().required('This field is required!'),
+  category: string().trim().required('Chọn nhóm'),
+  value: string().trim().required('Nhập giá trị'),
+  code: number().required('Nhập mã'),
   parentDataId: number().notRequired(),
 });
