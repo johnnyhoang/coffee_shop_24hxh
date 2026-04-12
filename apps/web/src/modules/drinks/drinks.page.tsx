@@ -8,6 +8,7 @@ import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { SearchField } from 'components/search-field';
 import { useSessionQuery } from 'hooks/use-session-query';
 import { axios } from 'lib/axios';
+import { isAxiosError } from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { DrinksModal } from './drink-modal';
 import { DrinksList } from './drink-list';
@@ -17,6 +18,32 @@ const KEY_LOCAL_STORAGE = 'drinksParams';
 const initialData = {
   q: '',
 };
+
+/** Giải thích lỗi tải danh sách (CORS, sai URL, HTML thay vì JSON). */
+function drinksListErrorMessage(error: unknown): string {
+  if (error instanceof Error && error.message.startsWith('Máy chủ trả về')) {
+    return error.message;
+  }
+  if (error instanceof Error && error.message.includes('không phải danh sách')) {
+    return error.message;
+  }
+  if (isAxiosError(error)) {
+    if (
+      error.code === 'ERR_NETWORK' ||
+      error.message === 'Network Error'
+    ) {
+      return 'Không kết nối được tới API (mạng, CORS, hoặc máy chủ tắt). Kiểm tra backend và CORS_ORIGINS trên API.';
+    }
+    const st = error.response?.status;
+    if (st) {
+      return `API trả về HTTP ${st}. Kiểm tra URL trong VITE_APP_API_BASE_URL và prefix /api/v1.`;
+    }
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return 'Lỗi không xác định.';
+}
 
 export const Drinks = () => {
   //URL
@@ -38,11 +65,26 @@ export const Drinks = () => {
   };
 
   // DATA LIST
-  const { data: drinks, refetch, isLoading: isLoadingDrinks, isError } = useQuery({
+  const {
+    data: drinks,
+    refetch,
+    isLoading: isLoadingDrinks,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ['drinks', queryParams],
     queryFn: async (): Promise<TDrinkDTO[]> => {
       const response = await axios.get('drinks', { params: queryParams });
-      return response.data;  // Trả về dữ liệu
+      const data = response.data;
+      if (!Array.isArray(data)) {
+        if (typeof data === 'string' && data.trimStart().startsWith('<')) {
+          throw new Error(
+            'Máy chủ trả về trang HTML thay vì JSON — thường do VITE_APP_API_BASE_URL trùng domain Vercel: mọi đường dẫn bị đưa về index.html. Hãy đặt biến này trỏ tới URL nơi Nest chạy (khác domain frontend), rồi build & deploy lại.',
+          );
+        }
+        throw new Error('API trả về dữ liệu không phải danh sách.');
+      }
+      return data;
     },
     select: (data: TDrinkDTO[]): TDrink[] => {
       return transformDrinks(data);
@@ -65,10 +107,15 @@ export const Drinks = () => {
 
   if (isError) {
     return (
-      <div className="rounded-xl border border-cream-200 bg-paper px-4 py-6 text-center text-espresso-700">
-        Không tải được danh sách đồ uống. Kiểm tra API đang chạy và{' '}
-        <code className="text-sm">VITE_APP_API_BASE_URL</code> trong{' '}
-        <code className="text-sm">apps/web/.env</code> (mặc định cổng 3000).
+      <div className="rounded-xl border border-cream-200 bg-paper px-4 py-6 text-left text-espresso-700">
+        <p className="mb-2 font-medium">Không tải được danh sách đồ uống.</p>
+        <p className="mb-3 text-sm text-espresso-600">{drinksListErrorMessage(error)}</p>
+        <p className="text-sm text-espresso-600">
+          Biến <code className="text-sm">VITE_APP_API_BASE_URL</code> phải là URL backend Nest (có{' '}
+          <code className="text-sm">/api/v1</code>, không dấu / cuối). Trên Vercel cần khai báo env rồi{' '}
+          <strong>build lại</strong> (Vite gắn env lúc build). Local: file{' '}
+          <code className="text-sm">apps/web/.env</code>.
+        </p>
       </div>
     );
   }
