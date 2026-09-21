@@ -2,7 +2,7 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { CustomBaseEntity } from '@modules/common/entities/base.entity';
 
 @Index('pk_people', ['peopleId'], { unique: true }) // Tạo chỉ mục duy nhất cho cột peopleId
-@Entity('people')
+@Entity('cf24_people')
 export class People extends CustomBaseEntity {
   static entityName: string = 'People'; // Tên của entity này
 

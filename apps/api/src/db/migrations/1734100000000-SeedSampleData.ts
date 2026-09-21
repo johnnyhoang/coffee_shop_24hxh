@@ -11,14 +11,14 @@ export class SeedSampleData1734100000000 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     const [{ cnt }] = (await queryRunner.query(
-      `SELECT COUNT(*)::int AS cnt FROM "location"`,
+      `SELECT COUNT(*)::int AS cnt FROM "cf24_location"`,
     )) as [{ cnt: number }];
     if (cnt > 0) {
       return;
     }
 
     await queryRunner.query(`
-      INSERT INTO "location" ("location_id", "region", "country", "location", "location_code")
+      INSERT INTO "cf24_location" ("location_id", "region", "country", "location", "location_code")
       VALUES
         (1, 'South', 'Vietnam', '24HXH Lê Lợi — Quận 1', 'HCM-Q1-LL'),
         (2, 'North', 'Vietnam', '24HXH Đinh Tiên Hoàng — Hoàn Kiếm', 'HN-HK-DTH'),
@@ -26,7 +26,7 @@ export class SeedSampleData1734100000000 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      INSERT INTO "people" ("people_id", "gender", "age", "fullname", "idnumber")
+      INSERT INTO "cf24_people" ("people_id", "gender", "age", "fullname", "idnumber")
       VALUES
         (1, 'Female', 34, 'Nguyễn Thị Minh An', '079082001234'),
         (2, 'Male', 31, 'Trần Hoàng Nam', '079082001235'),
@@ -41,7 +41,7 @@ export class SeedSampleData1734100000000 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      INSERT INTO "people" ("people_id", "gender", "age", "fullname", "idnumber")
+      INSERT INTO "cf24_people" ("people_id", "gender", "age", "fullname", "idnumber")
       SELECT
         10 + g,
         CASE WHEN g % 2 = 1 THEN 'Female' ELSE 'Male' END,
@@ -52,7 +52,7 @@ export class SeedSampleData1734100000000 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      INSERT INTO "master_data" ("data_id", "category", "value", "code", "code_text", "description", "parent_data_id")
+      INSERT INTO "cf24_master_data" ("data_id", "category", "value", "code", "code_text", "description", "parent_data_id")
       VALUES
         (1, 'NHÓM_MENU', 'CÀ_PHÊ', 1, 'Cà phê', 'Phin, espresso, pha máy', NULL),
         (2, 'NHÓM_MENU', 'TRÀ', 2, 'Trà', 'Trà đen, ô long, trà sữa', NULL),
@@ -71,7 +71,7 @@ export class SeedSampleData1734100000000 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      INSERT INTO "drinks" ("drinks_id", "drinks_name", "price", "description")
+      INSERT INTO "cf24_drinks" ("drinks_id", "drinks_name", "price", "description")
       VALUES
         (1, 'Phin đen đá', 39000, 'Cà phê phin truyền thống'),
         (2, 'Phin sữa đá', 45000, 'Phin + sữa đặc'),
@@ -98,7 +98,7 @@ export class SeedSampleData1734100000000 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      INSERT INTO "holiday" ("id", "holiday", "country", "holiday_name")
+      INSERT INTO "cf24_holiday" ("id", "holiday", "country", "holiday_name")
       VALUES
         (1, '2026-01-01 00:00:00', 'VN', 'Tết Dương lịch'),
         (2, '2026-04-30 00:00:00', 'VN', 'Giải phóng miền Nam'),
@@ -108,7 +108,7 @@ export class SeedSampleData1734100000000 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      INSERT INTO "coffeeTable" ("table_id", "table_number", "table_status", "table_size", "location_id")
+      INSERT INTO "cf24_coffee_table" ("table_id", "table_number", "table_status", "table_size", "location_id")
       VALUES
         (1, 1, false, '2-4 người', 1),
         (2, 2, false, '2-4 người', 1),
@@ -123,7 +123,7 @@ export class SeedSampleData1734100000000 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      INSERT INTO "staff_branch_role" ("staff_branch_role_id", "people_id", "location_id", "role")
+      INSERT INTO "cf24_staff_branch_role" ("staff_branch_role_id", "people_id", "location_id", "role")
       VALUES
         (1, 1, 1, 'owner'),
         (2, 2, 1, 'manager'),
@@ -138,24 +138,24 @@ export class SeedSampleData1734100000000 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      SELECT setval(pg_get_serial_sequence('location', 'location_id'), (SELECT COALESCE(MAX("location_id"), 1) FROM "location"));
-      SELECT setval(pg_get_serial_sequence('people', 'people_id'), (SELECT COALESCE(MAX("people_id"), 1) FROM "people"));
-      SELECT setval(pg_get_serial_sequence('master_data', 'data_id'), (SELECT COALESCE(MAX("data_id"), 1) FROM "master_data"));
-      SELECT setval(pg_get_serial_sequence('drinks', 'drinks_id'), (SELECT COALESCE(MAX("drinks_id"), 1) FROM "drinks"));
-      SELECT setval(pg_get_serial_sequence('holiday', 'id'), (SELECT COALESCE(MAX("id"), 1) FROM "holiday"));
-      SELECT setval(pg_get_serial_sequence('"coffeeTable"', 'table_id'), (SELECT COALESCE(MAX("table_id"), 1) FROM "coffeeTable"));
-      SELECT setval(pg_get_serial_sequence('staff_branch_role', 'staff_branch_role_id'), (SELECT COALESCE(MAX("staff_branch_role_id"), 1) FROM "staff_branch_role"));
+      SELECT setval(pg_get_serial_sequence('cf24_location', 'location_id'), (SELECT COALESCE(MAX("location_id"), 1) FROM "cf24_location"));
+      SELECT setval(pg_get_serial_sequence('cf24_people', 'people_id'), (SELECT COALESCE(MAX("people_id"), 1) FROM "cf24_people"));
+      SELECT setval(pg_get_serial_sequence('cf24_master_data', 'data_id'), (SELECT COALESCE(MAX("data_id"), 1) FROM "cf24_master_data"));
+      SELECT setval(pg_get_serial_sequence('cf24_drinks', 'drinks_id'), (SELECT COALESCE(MAX("drinks_id"), 1) FROM "cf24_drinks"));
+      SELECT setval(pg_get_serial_sequence('cf24_holiday', 'id'), (SELECT COALESCE(MAX("id"), 1) FROM "cf24_holiday"));
+      SELECT setval(pg_get_serial_sequence('cf24_coffee_table', 'table_id'), (SELECT COALESCE(MAX("table_id"), 1) FROM "cf24_coffee_table"));
+      SELECT setval(pg_get_serial_sequence('cf24_staff_branch_role', 'staff_branch_role_id'), (SELECT COALESCE(MAX("staff_branch_role_id"), 1) FROM "cf24_staff_branch_role"));
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DELETE FROM "staff_branch_role"`);
-    await queryRunner.query(`DELETE FROM "coffee_table_session"`);
-    await queryRunner.query(`DELETE FROM "coffeeTable"`);
-    await queryRunner.query(`DELETE FROM "holiday"`);
-    await queryRunner.query(`DELETE FROM "drinks"`);
-    await queryRunner.query(`DELETE FROM "master_data"`);
-    await queryRunner.query(`DELETE FROM "people"`);
-    await queryRunner.query(`DELETE FROM "location"`);
+    await queryRunner.query(`DELETE FROM "cf24_staff_branch_role"`);
+    await queryRunner.query(`DELETE FROM "cf24_coffee_table_session"`);
+    await queryRunner.query(`DELETE FROM "cf24_coffee_table"`);
+    await queryRunner.query(`DELETE FROM "cf24_holiday"`);
+    await queryRunner.query(`DELETE FROM "cf24_drinks"`);
+    await queryRunner.query(`DELETE FROM "cf24_master_data"`);
+    await queryRunner.query(`DELETE FROM "cf24_people"`);
+    await queryRunner.query(`DELETE FROM "cf24_location"`);
   }
 }

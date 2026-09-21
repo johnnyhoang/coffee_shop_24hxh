@@ -5,7 +5,7 @@ import { CustomBaseEntity } from '@modules/common/entities/base.entity';
  * Phiên phục vụ tại bàn: nhận đơn = mở phiên (có khách), trả bàn = đóng phiên.
  * Một bàn chỉ có tối đa một phiên đang mở (closed_at null).
  */
-@Entity('coffee_table_session')
+@Entity('cf24_coffee_table_session')
 export class TableSession extends CustomBaseEntity {
   static entityName = 'TableSession';
 

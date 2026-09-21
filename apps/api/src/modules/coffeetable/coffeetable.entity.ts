@@ -1,7 +1,7 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { CustomBaseEntity } from '@modules/common/entities/base.entity';
 
-@Entity('coffeeTable') // Định nghĩa tên bảng trong cơ sở dữ liệu là 'coffeetable' và schema là 'dbo'
+@Entity('cf24_coffee_table') // Định nghĩa tên bảng trong cơ sở dữ liệu là 'cf24_coffee_table'
 export class CoffeeTable extends CustomBaseEntity {
     static entityName: string = 'CoffeeTable'; // Tên của entity này
 

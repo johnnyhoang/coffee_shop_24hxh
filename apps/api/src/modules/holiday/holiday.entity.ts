@@ -2,7 +2,7 @@ import { CustomBaseEntity } from '@modules/common/entities/base.entity';
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Index('PK_Holiday', ['holidayId'], { unique: true }) // Tạo chỉ mục duy nhất cho cột holidayId
-@Entity('holiday') // Tên bảng trong cơ sở dữ liệu (đã đổi thành chữ thường)
+@Entity('cf24_holiday') // Tên bảng trong cơ sở dữ liệu (đã đổi thành chữ thường)
 export class Holiday extends CustomBaseEntity {
   static entityName: string = 'Holiday'; // Tên của entity này
 

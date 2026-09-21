@@ -14,7 +14,7 @@ import { Location } from '@modules/location/location.entity';
  * Phân công nhân viên theo chi nhánh: cùng một người có thể có vai trò khác nhau ở mỗi chi nhánh.
  * Ràng buộc duy nhất (people_id + location_id): mỗi chi nhánh chỉ một vai trò cho một nhân viên.
  */
-@Entity('staff_branch_role')
+@Entity('cf24_staff_branch_role')
 @Unique('uk_staff_branch_role_people_location', ['peopleId', 'locationId'])
 export class StaffBranchRole extends CustomBaseEntity {
   static entityName: string = 'StaffBranchRole';

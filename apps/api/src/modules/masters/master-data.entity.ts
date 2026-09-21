@@ -13,7 +13,7 @@ import {
 // Tạo chỉ mục duy nhất cho cột 'data_id'
 @Index('pk_master_data', ['dataId'], { unique: true })
 // Định nghĩa tên bảng là 'master_data'
-@Entity('master_data')
+@Entity('cf24_master_data')
 export class MasterData extends CustomBaseEntity {
   // Tên của entity này
   static entityName: string = 'MasterData';

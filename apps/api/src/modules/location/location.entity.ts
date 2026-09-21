@@ -1,7 +1,7 @@
 import { CustomBaseEntity } from '@modules/common/entities/base.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('location') // Tên bảng trong cơ sở dữ liệu
+@Entity('cf24_location') // Tên bảng trong cơ sở dữ liệu
 export class Location extends CustomBaseEntity {
   static entityName: string = 'Location'; // Tên của entity này
 
