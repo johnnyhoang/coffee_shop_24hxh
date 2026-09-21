@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@configs/*": ["apps/api/src/configs/*"],
+      "@modules/*": ["apps/api/src/modules/*"]
+    }
+  },
+  "include": ["api/**/*", "apps/api/src/**/*"]
+}
