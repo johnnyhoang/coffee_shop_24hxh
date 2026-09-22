@@ -12,6 +12,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AppLayout } from './layout/app-layout';
 import { queryClient } from './lib/react-query';
 import { Loading } from './components/loading';
+import { AuthProvider } from './contexts/auth-context';
 import WelcomePage from 'modules/welcome/welcome';
 import PageNotFound from 'modules/welcome/page-not-found';
 import { Peoples } from 'modules/peoples/components/people';
@@ -20,8 +21,6 @@ import Locations from 'modules/locations/locations.page';
 import StaffAssignmentsPage from 'modules/staff-branch-roles/staff-assignments.page';
 import { Drinks } from 'modules/drinks/drinks.page';
 import TradingTodayPage from 'modules/trading/trading-today.page';
-
-
 
 const App = () => {
   const router = createBrowserRouter(
@@ -66,10 +65,12 @@ const App = () => {
   );
   return (
     <Suspense fallback={<Loading />}>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </AuthProvider>
       <Toaster
         position="top-center"
         toastOptions={{

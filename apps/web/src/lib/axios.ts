@@ -1,13 +1,25 @@
 import Axios from 'axios';
 import { API_BASE_URL } from 'config';
 import { CalendarDate } from '@internationalized/date';
+import { supabase } from './supabase';
 
 export const axios = Axios.create({
   baseURL: API_BASE_URL,
 });
 
 axios.interceptors.request.use(
-  (request) => {
+  async (request) => {
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        request.headers.Authorization = `Bearer ${session.access_token}`;
+      }
+    } catch {
+      // Non-blocking fallback
+    }
+
     if (request.method === 'post' || request.method === 'put') {
       if (request.data) {
         for (const key in request.data) {

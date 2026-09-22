@@ -1,7 +1,9 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import ArrowRightOnRectangleIcon from '@heroicons/react/24/outline/ArrowRightOnRectangleIcon';
 
 import logo from 'assets/logo.png';
 import { SidebarNav } from '../sidebar/sidebar-nav';
+import { useAuth } from '../../contexts/auth-context';
 
 type MobileMenuProps = {
   open: boolean;
@@ -9,6 +11,14 @@ type MobileMenuProps = {
 };
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
+  const { user, signOut } = useAuth();
+  const displayName =
+    (user?.user_metadata?.full_name as string) ||
+    user?.email?.split('@')[0] ||
+    'Tài khoản';
+  const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
+  const email = user?.email || '';
+
   if (!open) return null;
 
   return (
@@ -51,6 +61,42 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
         <div className="min-h-0 flex-1 overflow-y-auto px-3 pt-2">
           <SidebarNav showLabels onNavigate={onClose} />
         </div>
+
+        {user && (
+          <div className="border-t border-cream-200 p-4">
+            <div className="flex items-center gap-3">
+              {avatarUrl ? (
+                <img
+                  src={avatarUrl}
+                  alt={displayName}
+                  className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-cream-300"
+                />
+              ) : (
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-espresso-700 text-sm font-semibold text-paper">
+                  {displayName.charAt(0).toUpperCase()}
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium text-espresso-800">
+                  {displayName}
+                </p>
+                <p className="truncate text-xs text-espresso-500">{email}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  signOut();
+                }}
+                title="Đăng xuất"
+                className="rounded-lg p-2 text-espresso-500 hover:bg-cream-200 hover:text-espresso-800 transition"
+                aria-label="Đăng xuất"
+              >
+                <ArrowRightOnRectangleIcon className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        )}
       </aside>
     </>
   );
