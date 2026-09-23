@@ -18,28 +18,60 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    let isMounted = true;
+
+    const initAuth = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (isMounted) {
+          setSession(data?.session ?? null);
+          setUser(data?.session?.user ?? null);
+        }
+      } catch (e) {
+        console.warn('Supabase auth getSession failed:', e);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    initAuth();
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
+      if (isMounted) {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
     });
 
-    return () => subscription.unsubscribe();
+    const timer = setTimeout(() => {
+      if (isMounted) {
+        setLoading(false);
+      }
+    }, 1500);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+      subscription?.unsubscribe();
+    };
   }, []);
 
   const signInWithGoogle = async () => {
+    let rawSiteUrl = import.meta.env.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL.trim() : '';
+    if (rawSiteUrl && !/^https?:\/\//i.test(rawSiteUrl)) {
+      rawSiteUrl = `https://${rawSiteUrl}`;
+    }
+    const redirectTarget = (rawSiteUrl || window.location.origin).replace(/\/+$/, '');
+
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: `${redirectTarget}/`,
       },
     });
   };

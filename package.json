@@ -12,7 +12,10 @@
     "dev:api": "nest start --path apps/api/tsconfig.json --watch",
     "dev:web": "vite --config apps/web/vite.config.ts",
     "migration:run": "node node_modules/typeorm/cli.js migration:run -d ./apps/api/ormconfig.js",
-    "migration:show": "node node_modules/typeorm/cli.js migration:show -d ./apps/api/ormconfig.js"
+    "migration:show": "node node_modules/typeorm/cli.js migration:show -d ./apps/api/ormconfig.js",
+    "db:seed": "ts-node scripts/seed-mock-data.ts",
+    "db:clean": "ts-node scripts/clean-db.ts",
+    "db:reset": "npm run db:clean && npm run db:seed"
   },
   "dependencies": {
     "@emotion/styled": "^11.11.5",
