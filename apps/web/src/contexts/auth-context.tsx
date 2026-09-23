@@ -48,25 +48,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     });
 
-    const timer = setTimeout(() => {
-      if (isMounted) {
-        setLoading(false);
-      }
-    }, 1500);
-
     return () => {
       isMounted = false;
-      clearTimeout(timer);
       subscription?.unsubscribe();
     };
   }, []);
 
   const signInWithGoogle = async () => {
-    let rawSiteUrl = import.meta.env.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL.trim() : '';
-    if (rawSiteUrl && !/^https?:\/\//i.test(rawSiteUrl)) {
-      rawSiteUrl = `https://${rawSiteUrl}`;
-    }
-    const redirectTarget = (rawSiteUrl || window.location.origin).replace(/\/+$/, '');
+    const redirectTarget = window.location.origin.replace(/\/+$/, '');
 
     await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -78,6 +67,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
   };
 
   return (
